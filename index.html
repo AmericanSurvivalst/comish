@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comish — Stop guessing. Start tracking.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg: #09090b;
+            --bg2: #18181b;
+            --bg3: #27272a;
+            --card: #18181b;
+            --border: #3f3f46;
+            --text: #fafafa;
+            --text2: #a1a1aa;
+            --muted: #71717a;
+            --accent: #10b981;
+            --accent2: #059669;
+            --accent-glow: rgba(16, 185, 129, 0.15);
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --pink: #ec4899;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        a { color: inherit; text-decoration: none; }
+        
+        /* Navigation */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; background: rgba(9,9,11,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; }
+        .logo span { color: var(--accent); }
+        nav .links { display: flex; gap: 2rem; align-items: center; }
+        nav .links a { color: var(--text2); font-size: 0.9rem; transition: color 0.2s; }
+        nav .links a:hover { color: var(--text); }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
+        .btn-primary { background: var(--accent); color: #000; }
+        .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+        .btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+        .btn-ghost { background: transparent; color: var(--text2); }
+        .btn-ghost:hover { color: var(--text); }
+        .btn-lg { padding: 1rem 2rem; font-size: 1rem; }
+        
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 2rem 4rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); pointer-events: none; }
+        .hero-content { max-width: 800px; text-align: center; position: relative; z-index: 1; }
+        .hero-badge { display: inline-block; background: var(--accent-glow); border: 1px solid rgba(16,185,129,0.3); color: var(--accent); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 500; margin-bottom: 1.5rem; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero h1 .gradient { background: linear-gradient(135deg, var(--accent), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 1.25rem; color: var(--text2); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .social-proof { margin-top: 3rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .proof-avatars { display: flex; }
+        .avatar { width: 36px; height: 36px; background: var(--bg3); border: 2px solid var(--bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; margin-left: -10px; }
+        .avatar:first-child { margin-left: 0; }
+        .social-proof p { color: var(--text2); font-size: 0.9rem; }
+        .social-proof strong { color: var(--text); }
+        
+        /* Demo Section */
+        .demo-section { padding: 4rem 2rem 6rem; }
+        .demo-section .container { max-width: 800px; margin: 0 auto; }
+        .demo-window { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .demo-header { background: var(--bg2); padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
+        .demo-dots { display: flex; gap: 6px; }
+        .demo-dots span { width: 12px; height: 12px; border-radius: 50%; background: var(--bg3); }
+        .demo-dots span:first-child { background: #ef4444; }
+        .demo-dots span:nth-child(2) { background: #f59e0b; }
+        .demo-dots span:nth-child(3) { background: #22c55e; }
+        .demo-header > span { color: var(--muted); font-size: 0.85rem; }
+        .demo-content { padding: 1.5rem; }
+        .demo-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        .demo-stat { background: var(--bg); border-radius: 8px; padding: 1rem; text-align: center; }
+        .demo-stat.highlight { background: var(--accent-glow); border: 1px solid var(--accent); }
+        .demo-stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .demo-stat-value { font-size: 1.5rem; font-weight: 700; margin: 0.25rem 0; }
+        .demo-stat-sub { font-size: 0.75rem; color: var(--text2); }
+        .demo-breakdown { background: var(--bg); border-radius: 8px; padding: 1rem; }
+        .demo-tier { display: flex; align-items: center; padding: 0.625rem 0.5rem; border-radius: 6px; margin-bottom: 0.25rem; color: var(--muted); }
+        .demo-tier.active { background: var(--bg2); color: var(--text); }
+        .tier-dot { width: 10px; height: 10px; border-radius: 3px; margin-right: 0.75rem; }
+        .tier-dot.t1 { background: var(--blue); }
+        .tier-dot.t2 { background: var(--purple); }
+        .tier-dot.t3 { background: var(--pink); }
+        .tier-dot.t4 { background: var(--orange); }
+        .tier-label { flex: 1; font-size: 0.85rem; }
+        .tier-amount { font-size: 0.85rem; font-family: monospace; }
+        .tier-amount strong { color: var(--accent); }
+        
+        /* Pain Section */
+        .pain-section { padding: 6rem 2rem; background: var(--bg2); }
+        .pain-section .container { max-width: 900px; margin: 0 auto; }
+        .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+        @media (max-width: 768px) { .pain-grid { grid-template-columns: 1fr; } }
+        .pain-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .pain-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+        .pain-card p { color: var(--text2); font-size: 0.95rem; font-style: italic; }
+        .pain-solution { text-align: center; margin-top: 2rem; }
+        .pain-solution p { color: var(--accent); font-size: 1.1rem; font-weight: 500; }
+        
+        /* Testimonial */
+        .testimonial-section { padding: 4rem 2rem; }
+        .testimonial-section .container { max-width: 700px; margin: 0 auto; }
+        .testimonial-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; text-align: center; position: relative; }
+        .testimonial-card::before { content: '"'; position: absolute; top: 1rem; left: 1.5rem; font-size: 4rem; color: var(--accent); opacity: 0.3; font-family: serif; line-height: 1; }
+        .testimonial-quote { font-size: 1.25rem; line-height: 1.6; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+        .testimonial-author { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .testimonial-avatar { width: 48px; height: 48px; background: var(--accent); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; }
+        .testimonial-info { text-align: left; }
+        .testimonial-info strong { display: block; }
+        .testimonial-info span { color: var(--text2); font-size: 0.85rem; }
+        
+        /* Updated Pricing */
+        .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 800px; margin: 0 auto; }
+        @media (max-width: 700px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .price-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; }
+        .price-card:first-child { border-color: var(--accent); }
+        .price-card.team { opacity: 0.7; }
+        .price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--purple); color: #fff; padding: 0.25rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .price-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .price-amount { font-size: 3rem; font-weight: 800; line-height: 1; }
+        .price-amount span { font-size: 1.25rem; color: var(--text2); font-weight: 500; }
+        .price-period { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .price-features { margin: 1.5rem 0; padding: 0; list-style: none; }
+        .price-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; color: var(--text2); font-size: 0.9rem; }
+        .price-features li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+        .price-card .btn { width: 100%; }
+        .price-card .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Updated CTA */
+        .cta { padding: 6rem 2rem; text-align: center; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); }
+        .cta-content { max-width: 600px; margin: 0 auto; }
+        .cta h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .cta p { color: var(--text2); margin-bottom: 2rem; font-size: 1.1rem; }
+        .cta-note { margin-top: 1rem; color: var(--muted); font-size: 0.9rem; }
+        
+        /* Footer */
+        footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: center; }
+        footer .logo { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        footer p { color: var(--muted); font-size: 0.9rem; margin: 0.25rem 0; }
+        
+        /* Features */
+        .features { padding: 6rem 2rem; }
+        .features .container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-header p { color: var(--text2); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: all 0.3s; }
+        .feature-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .feature-icon { width: 48px; height: 48px; background: var(--accent-glow); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text2); font-size: 0.95rem; }
+        
+        /* How it works */
+        .how-it-works { padding: 6rem 2rem; background: var(--bg2); }
+        .how-it-works .container { max-width: 1000px; margin: 0 auto; }
+        .steps { display: flex; flex-direction: column; gap: 3rem; margin-top: 3rem; }
+        .step { display: flex; gap: 2rem; align-items: flex-start; }
+        .step-num { width: 48px; height: 48px; background: var(--accent); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; flex-shrink: 0; }
+        .step-content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .step-content p { color: var(--text2); }
+        @media (max-width: 600px) { .step { flex-direction: column; align-items: center; text-align: center; } }
+        
+        /* Pricing - moved to new location */
+        .pricing { padding: 6rem 2rem; }
+        .pricing .container { max-width: 900px; margin: 0 auto; }
+        
+        /* Auth Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 420px; overflow: hidden; }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { font-size: 1.25rem; }
+        .modal-close { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; }
+        .modal-body { padding: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; font-size: 0.85rem; color: var(--text2); margin-bottom: 0.5rem; }
+        .form-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; color: var(--text); font-size: 1rem; font-family: inherit; }
+        .form-input:focus { outline: none; border-color: var(--accent); }
+        .form-error { color: #ef4444; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+        .form-error.show { display: block; }
+        .auth-switch { text-align: center; margin-top: 1rem; color: var(--text2); font-size: 0.9rem; }
+        .auth-switch a { color: var(--accent); cursor: pointer; }
+        .auth-switch a:hover { text-decoration: underline; }
+        
+        /* App Container (hidden by default) */
+        #app { display: none; }
+        #landing { display: block; }
+        
+        /* Onboarding */
+        .onboarding { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .onboard-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; overflow: hidden; }
+        .onboard-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .onboard-header h2 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .onboard-header p { color: var(--text2); font-size: 0.9rem; }
+        .onboard-progress { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .onboard-progress .step { flex: 1; height: 4px; background: var(--bg3); border-radius: 2px; }
+        .onboard-progress .step.active { background: var(--accent); }
+        .onboard-progress .step.done { background: var(--accent); }
+        .onboard-body { padding: 1.5rem; }
+        .onboard-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+        
+        .rate-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+        .rate-grid .form-input { text-align: center; padding: 0.5rem; }
+        .rate-label { font-size: 0.7rem; color: var(--muted); text-align: center; margin-bottom: 0.25rem; }
+        
+        /* Dashboard */
+        .dashboard { min-height: 100vh; background: var(--bg); }
+        .dash-nav { padding: 1rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .dash-nav .logo { font-size: 1.25rem; }
+        .user-menu { display: flex; align-items: center; gap: 1rem; }
+        .user-email { color: var(--text2); font-size: 0.85rem; }
+        .dash-container { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+        
+        /* Reuse tracker styles */
+        .quick-entry{background:linear-gradient(135deg,var(--card),var(--accent-glow));border:1px solid var(--accent);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+        .quick-entry label{font-size:0.85rem;color:var(--text2)}
+        .quick-entry input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.625rem;color:var(--text);font-family:'Inter',monospace;font-size:1.125rem;width:160px}
+        .quick-entry input:focus{outline:none;border-color:var(--accent)}
+        .quick-entry .hint{font-size:0.7rem;color:var(--muted);margin-top:0.25rem}
+        
+        .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:0.75rem;margin-bottom:1.5rem}
+        @media(max-width:1200px){.stats{grid-template-columns:repeat(3,1fr)}}
+        @media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:480px){.stats{grid-template-columns:1fr}}
+        .stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+        .stat.hl{border-color:var(--accent);background:linear-gradient(135deg,var(--card),var(--accent-glow))}
+        .stat-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem}
+        .stat-value{font-family:'Inter',monospace;font-size:1.25rem;font-weight:700}
+        .stat-sub{font-size:0.7rem;color:var(--text2);margin-top:0.125rem}
+        .green{color:var(--accent)}.yellow{color:#f59e0b}.blue{color:var(--blue)}.purple{color:var(--purple)}
+        
+        .progress-section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
+        .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem}
+        .progress-title{font-weight:600}
+        .progress-stats{display:flex;gap:1.5rem;font-size:0.8rem;color:var(--text2)}
+        .progress-stats strong{color:var(--text);font-family:'Inter',monospace}
+        .progress-bar-wrap{height:20px;background:var(--bg);border-radius:10px;overflow:hidden;margin-bottom:0.5rem}
+        .progress-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink),var(--orange));border-radius:10px;transition:width 0.5s}
+        .progress-labels{display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted)}
+        
+        .main-grid{display:grid;grid-template-columns:1fr 380px;gap:1.25rem}
+        @media(max-width:1100px){.main-grid{grid-template-columns:1fr}}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+        .card-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+        .card-title{font-weight:600}
+        .table-wrap{max-height:400px;overflow-y:auto}
+        table{width:100%;border-collapse:collapse}
+        th{text-align:left;padding:0.625rem 1rem;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card)}
+        td{padding:0.625rem 1rem;border-bottom:1px solid var(--border);font-size:0.85rem}
+        tr:hover{background:var(--bg2)}
+        .badge{display:inline-flex;padding:0.125rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600}
+        .badge.y1{background:rgba(59,130,246,0.15);color:var(--blue)}
+        .badge.y2{background:rgba(139,92,246,0.15);color:var(--purple)}
+        .badge.paid{background:rgba(16,185,129,0.15);color:var(--accent)}
+        .badge.unpaid{background:rgba(245,158,11,0.15);color:#f59e0b}
+        .deal-actions button{background:none;border:none;color:var(--muted);cursor:pointer;padding:0.25rem;font-size:0.9rem}
+        .deal-actions button:hover{color:var(--text)}
+        
+        .sidebar-cards{display:flex;flex-direction:column;gap:1rem}
+        .side-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+        .side-title{font-weight:600;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+        .tier-row{display:flex;align-items:center;padding:0.5rem;border-radius:6px;margin-bottom:0.25rem;background:var(--bg)}
+        .tier-row.active{background:var(--accent-glow);border:1px solid var(--accent)}
+        .tier-color{width:8px;height:8px;border-radius:2px;margin-right:0.5rem}
+        .tier-info{flex:1}
+        .tier-name{font-weight:600;font-size:0.8rem}
+        .tier-range{font-size:0.7rem;color:var(--muted)}
+        .tier-amounts{text-align:right}
+        .tier-rev{font-size:0.7rem;color:var(--text2)}
+        .tier-comm{font-size:0.9rem;font-weight:700;color:var(--accent)}
+        .comm-summary{background:var(--bg);border-radius:8px;padding:0.75rem;margin-top:0.75rem}
+        .comm-row{display:flex;justify-content:space-between;padding:0.25rem 0;font-size:0.85rem}
+        .comm-row.total{border-top:1px solid var(--border);margin-top:0.5rem;padding-top:0.5rem;font-weight:600}
+        .comm-row.total .comm-value{color:var(--accent);font-size:1.1rem}
+        .comm-label{color:var(--text2)}
+        .comm-value{font-weight:600}
+        
+        .empty{text-align:center;padding:3rem;color:var(--muted)}
+        
+        /* Deal Modal */
+        .deal-modal .form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+        .toggle-group{display:flex;background:var(--bg);border-radius:8px;padding:3px}
+        .toggle-opt{flex:1;padding:0.5rem;text-align:center;font-size:0.85rem;font-weight:500;cursor:pointer;border-radius:5px;color:var(--muted);transition:all 0.2s}
+        .toggle-opt.active{background:var(--card);color:var(--text)}
+        .toggle-opt.y1.active{color:var(--blue)}
+        .toggle-opt.y2.active{color:var(--purple)}
+        
+        .toast-wrap{position:fixed;bottom:1rem;right:1rem;z-index:300}
+        .toast{background:var(--card);border:1px solid var(--accent);border-radius:8px;padding:0.75rem 1rem;font-size:0.9rem;box-shadow:0 4px 20px rgba(0,0,0,0.3);animation:slideIn 0.3s}
+        @keyframes slideIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+        
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing">
+        <nav>
+            <div class="container">
+                <div class="logo">Com<span>ish</span></div>
+                <div class="links">
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <button class="btn btn-ghost" onclick="showAuth('login')">Log in</button>
+                    <button class="btn btn-primary" onclick="showAuth('signup')">Start Free →</button>
+                </div>
+            </div>
+        </nav>
+        
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">✨ Set up in 2 minutes. Free for 14 days.</div>
+                <h1>Know your paycheck<br><span class="gradient">before it hits.</span></h1>
+                <p>Stop waiting until month-end to find out what you made. Comish shows you exactly what you're taking home — updated with every deal you close.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg" onclick="showAuth('signup')">Start Tracking Free →</button>
+                    <button class="btn btn-secondary btn-lg" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">See Demo ↓</button>
+                </div>
+                <div class="social-proof">
+                    <div class="proof-avatars">
+                        <div class="avatar">S</div>
+                        <div class="avatar">M</div>
+                        <div class="avatar">J</div>
+                        <div class="avatar">A</div>
+                        <div class="avatar">+</div>
+                    </div>
+                    <p>Joined by <strong>500+</strong> sales reps this month</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="demo-section" id="demo">
+            <div class="container">
+                <div class="demo-window">
+                    <div class="demo-header">
+                        <div class="demo-dots"><span></span><span></span><span></span></div>
+                        <span>Comish Dashboard</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="demo-stats">
+                            <div class="demo-stat">
+                                <div class="demo-stat-label">Quarterly Total</div>
+                                <div class="demo-stat-value">$487,500</div>
+                                <div class="demo-stat-sub green">130% of goal</div>
+                            </div>
+                            <div class="demo-stat highlight">
+                                <div class="demo-stat-label">Your Commission</div>
+                                <div class="demo-stat-value green">$47,250</div>
+                                <div class="demo-stat-sub">Tier 3 rates active</div>
+                            </div>
+                            <div class="demo-stat">
+                                <div class="demo-stat-label">To Tier 4</div>
+                                <div class="demo-stat-value yellow">$75,000</div>
+                                <div class="demo-stat-sub">+2% rate bump</div>
+                            </div>
+                        </div>
+                        <div class="demo-breakdown">
+                            <div class="demo-tier active">
+                                <span class="tier-dot t1"></span>
+                                <span class="tier-label">Tier 1 (0-100%)</span>
+                                <span class="tier-amount">$375K → <strong>$22,500</strong></span>
+                            </div>
+                            <div class="demo-tier active">
+                                <span class="tier-dot t2"></span>
+                                <span class="tier-label">Tier 2 (100-125%)</span>
+                                <span class="tier-amount">$93.7K → <strong>$9,375</strong></span>
+                            </div>
+                            <div class="demo-tier active">
+                                <span class="tier-dot t3"></span>
+                                <span class="tier-label">Tier 3 (125-150%)</span>
+                                <span class="tier-amount">$18.7K → <strong>$2,250</strong></span>
+                            </div>
+                            <div class="demo-tier">
+                                <span class="tier-dot t4"></span>
+                                <span class="tier-label">Tier 4 (150%+)</span>
+                                <span class="tier-amount">$0 → $0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="pain-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Sound familiar?</h2>
+                </div>
+                <div class="pain-grid">
+                    <div class="pain-card">
+                        <div class="pain-icon">😤</div>
+                        <p>"I have no idea what I'm actually getting paid until the check hits."</p>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-icon">📊</div>
+                        <p>"My comp plan is so complicated, even finance gets it wrong."</p>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-icon">🤷</div>
+                        <p>"Am I close to the next tier? No clue."</p>
+                    </div>
+                </div>
+                <div class="pain-solution">
+                    <p>Yeah, we've been there too. That's why we built Comish.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Everything you need.<br>Nothing you don't.</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💵</div>
+                        <h3>See your exact payout</h3>
+                        <p>Not a percentage. Not an estimate. The actual dollar amount hitting your account.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📈</div>
+                        <h3>Know your tier, always</h3>
+                        <p>See exactly how far you are from the next rate bump — and what it's worth.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Multi-year deals? Handled.</h3>
+                        <p>Different rates for 1-year vs 2-year contracts. Calculated automatically.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Add deals in 5 seconds</h3>
+                        <p>Client name, amount, close date. Done. No spreadsheet gymnastics.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Check from anywhere</h3>
+                        <p>Phone, tablet, laptop. Your commission travels with you.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔐</div>
+                        <h3>Private & secure</h3>
+                        <p>Your comp data is yours. Bank-level encryption. We never see your numbers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2>From zero to tracking in 2 minutes</h2>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h3>Plug in your comp plan</h3>
+                            <p>Quarterly goal, tier thresholds, commission rates. One-time setup.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h3>Log your deals</h3>
+                            <p>Add deals as you close them. Or bulk enter your quarter so far.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h3>See your money</h3>
+                            <p>Watch your commission calculate in real-time. Know exactly what you're making.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="testimonial-section">
+            <div class="container">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">"I used to spend the last week of every month trying to figure out my check. Now I know exactly where I stand after every call."</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">M</div>
+                        <div class="testimonial-info">
+                            <strong>Mike R.</strong>
+                            <span>Enterprise AE, SaaS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple, transparent pricing</h2>
+                    <p>No surprises. Just like your commission should be.</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="price-card">
+                        <div class="price-name">Pro</div>
+                        <div class="price-amount">$12<span>/mo</span></div>
+                        <div class="price-period">Billed monthly</div>
+                        <ul class="price-features">
+                            <li>Unlimited deals</li>
+                            <li>Tiered commission calc</li>
+                            <li>1yr & 2yr rate support</li>
+                            <li>Mobile-friendly</li>
+                            <li>CSV export</li>
+                            <li>14-day free trial</li>
+                        </ul>
+                        <button class="btn btn-primary btn-lg" onclick="showAuth('signup')">Start Free Trial</button>
+                    </div>
+                    <div class="price-card team">
+                        <div class="price-badge">Coming Soon</div>
+                        <div class="price-name">Team</div>
+                        <div class="price-amount">$49<span>/mo</span></div>
+                        <div class="price-period">Up to 10 reps</div>
+                        <ul class="price-features">
+                            <li>Everything in Pro</li>
+                            <li>Team dashboard</li>
+                            <li>Manager controls</li>
+                            <li>Shared comp plans</li>
+                            <li>Leaderboards</li>
+                            <li>Priority support</li>
+                        </ul>
+                        <button class="btn btn-secondary btn-lg" disabled>Join Waitlist</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta">
+            <div class="cta-content">
+                <h2>Stop guessing. Start knowing.</h2>
+                <p>Set up takes 2 minutes. No credit card required.</p>
+                <button class="btn btn-primary btn-lg" onclick="showAuth('signup')">Start Tracking Free →</button>
+                <div class="cta-note">Join 500+ reps who know what they're making</div>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="logo">Com<span>ish</span></div>
+            <p>Built for sales reps, by sales reps.</p>
+            <p class="footer-links">© 2025 Comish</p>
+        </footer>
+    </div>
+    
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="authTitle">Sign Up</h2>
+                <button class="modal-close" onclick="hideAuth()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="authForm" onsubmit="handleAuth(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="authEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="authPassword" required minlength="6">
+                    </div>
+                    <div class="form-error" id="authError"></div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:1rem" id="authSubmit">Sign Up</button>
+                </form>
+                <div class="auth-switch" id="authSwitch">
+                    Already have an account? <a onclick="toggleAuthMode()">Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- App -->
+    <div id="app">
+        <!-- Onboarding -->
+        <div id="onboarding" class="onboarding hidden">
+            <div class="onboard-card">
+                <div class="onboard-header">
+                    <h2 id="onboardTitle">Set Your Quarterly Goal</h2>
+                    <p id="onboardDesc">What's your quota for the quarter?</p>
+                    <div class="onboard-progress">
+                        <div class="step active" id="ob-step-1"></div>
+                        <div class="step" id="ob-step-2"></div>
+                        <div class="step" id="ob-step-3"></div>
+                    </div>
+                </div>
+                <div class="onboard-body" id="onboardBody">
+                    <!-- Step 1: Goal -->
+                    <div id="ob-content-1">
+                        <div class="form-group">
+                            <label class="form-label">Quarterly Goal ($)</label>
+                            <input type="number" class="form-input" id="obGoal" value="375000" style="font-size:1.5rem;text-align:center">
+                        </div>
+                    </div>
+                    <!-- Step 2: Tiers -->
+                    <div id="ob-content-2" class="hidden">
+                        <div class="form-group">
+                            <label class="form-label">Tier Thresholds (% of goal)</label>
+                            <div class="rate-grid">
+                                <div><div class="rate-label">Tier 1</div><input type="number" class="form-input" value="0" disabled></div>
+                                <div><div class="rate-label">Tier 2</div><input type="number" class="form-input" id="obTh2" value="100"></div>
+                                <div><div class="rate-label">Tier 3</div><input type="number" class="form-input" id="obTh3" value="125"></div>
+                                <div><div class="rate-label">Tier 4</div><input type="number" class="form-input" id="obTh4" value="150"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 3: Rates -->
+                    <div id="ob-content-3" class="hidden">
+                        <div class="form-group">
+                            <label class="form-label">1-Year Contract Rates (%)</label>
+                            <div class="rate-grid">
+                                <div><div class="rate-label">Tier 1</div><input type="number" class="form-input" id="obR1a" value="6"></div>
+                                <div><div class="rate-label">Tier 2</div><input type="number" class="form-input" id="obR1b" value="8"></div>
+                                <div><div class="rate-label">Tier 3</div><input type="number" class="form-input" id="obR1c" value="10"></div>
+                                <div><div class="rate-label">Tier 4</div><input type="number" class="form-input" id="obR1d" value="12"></div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:1rem">
+                            <label class="form-label">2-Year Contract Rates (%)</label>
+                            <div class="rate-grid">
+                                <div><div class="rate-label">Tier 1</div><input type="number" class="form-input" id="obR2a" value="8"></div>
+                                <div><div class="rate-label">Tier 2</div><input type="number" class="form-input" id="obR2b" value="10"></div>
+                                <div><div class="rate-label">Tier 3</div><input type="number" class="form-input" id="obR2c" value="12"></div>
+                                <div><div class="rate-label">Tier 4</div><input type="number" class="form-input" id="obR2d" value="14"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="onboard-footer">
+                    <button class="btn btn-ghost" id="obBack" onclick="onboardBack()" style="visibility:hidden">Back</button>
+                    <button class="btn btn-primary" id="obNext" onclick="onboardNext()">Next</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard hidden">
+            <nav class="dash-nav">
+                <div class="logo">Com<span>ish</span></div>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail"></span>
+                    <button class="btn btn-ghost" onclick="logout()">Log out</button>
+                </div>
+            </nav>
+            <div class="dash-container">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+                    <div style="display:flex;gap:0.5rem">
+                        <select id="yearSelect" onchange="render()" style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:0.5rem;color:var(--text)"></select>
+                        <select id="quarterSelect" onchange="render()" style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:0.5rem;color:var(--text)">
+                            <option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option><option value="Q4">Q4</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:0.5rem">
+                        <button class="btn btn-ghost" onclick="exportCSV()">📤 Export</button>
+                        <button class="btn btn-secondary" onclick="openSettings()">⚙️ Settings</button>
+                        <button class="btn btn-primary" onclick="openDeal()">+ Add Deal</button>
+                    </div>
+                </div>
+                
+                <div class="quick-entry">
+                    <div>
+                        <label>Starting Point (QTD before tracking)</label>
+                        <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.25rem">
+                            <span style="color:var(--muted)">$</span>
+                            <input type="number" id="startingPoint" placeholder="0" onchange="saveStarting()">
+                        </div>
+                        <div class="hint">Revenue already closed this quarter</div>
+                    </div>
+                    <div style="margin-left:auto;text-align:right">
+                        <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase">Quarterly Total</div>
+                        <div style="font-size:1.75rem;font-weight:700" id="qtdTotal">$0</div>
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat"><div class="stat-label">Quarterly Goal</div><div class="stat-value" id="qGoal">$375,000</div><div class="stat-sub" id="attainmentPct">0%</div></div>
+                    <div class="stat"><div class="stat-label">Current Tier</div><div class="stat-value green" id="currentTier">Tier 1</div><div class="stat-sub" id="tierRates">1yr: 6% · 2yr: 8%</div></div>
+                    <div class="stat"><div class="stat-label">To Next Tier</div><div class="stat-value yellow" id="toNext">$375,000</div><div class="stat-sub" id="nextTierName">to Tier 2</div></div>
+                    <div class="stat"><div class="stat-label">This Month</div><div class="stat-value blue" id="monthTotal">$0</div><div class="stat-sub" id="monthDeals">0 deals</div></div>
+                    <div class="stat hl"><div class="stat-label">Total Commission</div><div class="stat-value green" id="totalCommStat">$0</div><div class="stat-sub">blended</div></div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-title">Quarterly Progress</span>
+                        <div class="progress-stats">
+                            <span><strong id="closedAmt">$0</strong> closed</span>
+                            <span><strong id="remainingAmt">$375K</strong> to goal</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+                    <div class="progress-labels"><span>0%</span><span>100%</span><span>125%</span><span>150%</span><span>175%+</span></div>
+                </div>
+                
+                <div class="main-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Deals</span>
+                            <select id="monthFilter" onchange="renderDeals()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.375rem 0.5rem;color:var(--text);font-size:0.85rem"><option value="all">All Months</option></select>
+                        </div>
+                        <div class="table-wrap">
+                            <table><thead><tr><th>Client</th><th>Amount</th><th>Term</th><th>Date</th><th>Status</th><th></th></tr></thead><tbody id="dealsBody"></tbody></table>
+                            <div class="empty" id="emptyDeals" style="display:none">No deals yet.<br><button class="btn btn-primary" onclick="openDeal()" style="margin-top:0.75rem">Add your first deal</button></div>
+                        </div>
+                    </div>
+                    <div class="sidebar-cards">
+                        <div class="side-card">
+                            <div class="side-title">Commission by Tier</div>
+                            <div id="tierBreakdown"></div>
+                            <div class="comm-summary">
+                                <div class="comm-row"><span class="comm-label">1-Year Deals</span><span class="comm-value blue" id="y1Comm">$0</span></div>
+                                <div class="comm-row"><span class="comm-label">2-Year Deals</span><span class="comm-value purple" id="y2Comm">$0</span></div>
+                                <div class="comm-row total"><span class="comm-label">Total</span><span class="comm-value" id="totalComm">$0</span></div>
+                            </div>
+                        </div>
+                        <div class="side-card">
+                            <div class="side-title">Revenue</div>
+                            <div class="comm-row"><span class="comm-label">1-Year</span><span class="comm-value blue" id="y1Rev">$0</span></div>
+                            <div class="comm-row"><span class="comm-label">2-Year</span><span class="comm-value purple" id="y2Rev">$0</span></div>
+                            <div class="comm-row total"><span class="comm-label">Deals Total</span><span class="comm-value" id="totalRev">$0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Deal Modal -->
+    <div class="modal-overlay deal-modal" id="dealModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="dealModalTitle">Add Deal</h2>
+                <button class="modal-close" onclick="closeDeal()">×</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label class="form-label">Client / Deal Name</label>
+                    <input type="text" class="form-input" id="dealName" placeholder="Acme Corp">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Amount ($)</label>
+                        <input type="number" class="form-input" id="dealAmt" placeholder="50000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Close Date</label>
+                        <input type="date" class="form-input" id="dealDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contract Length</label>
+                    <div class="toggle-group">
+                        <div class="toggle-opt y1 active" onclick="setTerm(1)">1 Year</div>
+                        <div class="toggle-opt y2" onclick="setTerm(2)">2 Year</div>
+                    </div>
+                    <input type="hidden" id="dealTerm" value="1">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Status</label>
+                    <div class="toggle-group">
+                        <div class="toggle-opt active" onclick="setPaid(false)" id="unpaidOpt">Unpaid</div>
+                        <div class="toggle-opt" onclick="setPaid(true)" id="paidOpt">Paid</div>
+                    </div>
+                    <input type="hidden" id="dealPaid" value="false">
+                </div>
+            </div>
+            <div style="padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.5rem">
+                <button class="btn btn-secondary" onclick="closeDeal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveDeal()">Save Deal</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close" onclick="closeSettings()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Quarterly Goal ($)</label>
+                    <input type="number" class="form-input" id="setGoal">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tier Thresholds (%)</label>
+                    <div class="rate-grid">
+                        <div><div class="rate-label">T1</div><input type="number" class="form-input" value="0" disabled></div>
+                        <div><div class="rate-label">T2</div><input type="number" class="form-input" id="setTh2"></div>
+                        <div><div class="rate-label">T3</div><input type="number" class="form-input" id="setTh3"></div>
+                        <div><div class="rate-label">T4</div><input type="number" class="form-input" id="setTh4"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">1-Year Rates (%)</label>
+                    <div class="rate-grid">
+                        <input type="number" class="form-input" id="setR1a">
+                        <input type="number" class="form-input" id="setR1b">
+                        <input type="number" class="form-input" id="setR1c">
+                        <input type="number" class="form-input" id="setR1d">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">2-Year Rates (%)</label>
+                    <div class="rate-grid">
+                        <input type="number" class="form-input" id="setR2a">
+                        <input type="number" class="form-input" id="setR2b">
+                        <input type="number" class="form-input" id="setR2c">
+                        <input type="number" class="form-input" id="setR2d">
+                    </div>
+                </div>
+            </div>
+            <div style="padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.5rem">
+                <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast-wrap" id="toasts"></div>
+    
+<script>
+// Supabase setup
+const SUPABASE_URL = 'https://yeecmrjkkujtsvrtatig.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllZWNtcmpra3VqdHN2cnRhdGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2NjI0NjAsImV4cCI6MjA0OTIzODQ2MH0.placeholder';
+let supabase;
+
+// App state
+let user = null;
+let compPlan = null;
+let deals = [];
+let startingPoints = {};
+
+const $ = id => document.getElementById(id);
+const fmt = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0,maximumFractionDigits:0}).format(n||0);
+
+function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    $('toasts').appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+// Auth functions
+let authMode = 'signup';
+
+function showAuth(mode) {
+    authMode = mode;
+    $('authModal').classList.add('active');
+    $('authTitle').textContent = mode === 'signup' ? 'Sign Up' : 'Log In';
+    $('authSubmit').textContent = mode === 'signup' ? 'Sign Up' : 'Log In';
+    $('authSwitch').innerHTML = mode === 'signup' 
+        ? 'Already have an account? <a onclick="toggleAuthMode()">Log in</a>'
+        : 'Need an account? <a onclick="toggleAuthMode()">Sign up</a>';
+    $('authError').classList.remove('show');
+}
+
+function hideAuth() {
+    $('authModal').classList.remove('active');
+}
+
+function toggleAuthMode() {
+    showAuth(authMode === 'signup' ? 'login' : 'signup');
+}
+
+async function handleAuth(e) {
+    e.preventDefault();
+    const email = $('authEmail').value;
+    const password = $('authPassword').value;
+    
+    $('authSubmit').disabled = true;
+    $('authSubmit').textContent = 'Please wait...';
+    $('authError').classList.remove('show');
+    
+    try {
+        let result;
+        if (authMode === 'signup') {
+            result = await supabase.auth.signUp({ email, password });
+        } else {
+            result = await supabase.auth.signInWithPassword({ email, password });
+        }
+        
+        if (result.error) throw result.error;
+        
+        // Auth state change will handle the rest
+        hideAuth();
+    } catch (err) {
+        $('authError').textContent = err.message;
+        $('authError').classList.add('show');
+    } finally {
+        $('authSubmit').disabled = false;
+        $('authSubmit').textContent = authMode === 'signup' ? 'Sign Up' : 'Log In';
+    }
+}
+
+async function logout() {
+    await supabase.auth.signOut();
+    user = null;
+    compPlan = null;
+    deals = [];
+    $('app').style.display = 'none';
+    $('landing').style.display = 'block';
+}
+
+// Onboarding
+let onboardStep = 1;
+
+function showOnboarding() {
+    $('onboarding').classList.remove('hidden');
+    $('dashboard').classList.add('hidden');
+    onboardStep = 1;
+    updateOnboardUI();
+}
+
+function updateOnboardUI() {
+    for (let i = 1; i <= 3; i++) {
+        $(`ob-step-${i}`).className = 'step' + (i < onboardStep ? ' done' : i === onboardStep ? ' active' : '');
+        $(`ob-content-${i}`).classList.toggle('hidden', i !== onboardStep);
+    }
+    $('obBack').style.visibility = onboardStep === 1 ? 'hidden' : 'visible';
+    $('obNext').textContent = onboardStep === 3 ? 'Finish' : 'Next';
+    
+    const titles = ['Set Your Quarterly Goal', 'Configure Tier Thresholds', 'Set Commission Rates'];
+    const descs = ['What\'s your quota for the quarter?', 'At what % of goal do you hit each tier?', 'What % do you earn at each tier?'];
+    $('onboardTitle').textContent = titles[onboardStep - 1];
+    $('onboardDesc').textContent = descs[onboardStep - 1];
+}
+
+function onboardBack() {
+    if (onboardStep > 1) {
+        onboardStep--;
+        updateOnboardUI();
+    }
+}
+
+async function onboardNext() {
+    if (onboardStep < 3) {
+        onboardStep++;
+        updateOnboardUI();
+    } else {
+        // Save comp plan
+        const plan = {
+            user_id: user.id,
+            quarterly_goal: parseFloat($('obGoal').value) || 375000,
+            tiers: JSON.stringify([0, parseFloat($('obTh2').value) || 100, parseFloat($('obTh3').value) || 125, parseFloat($('obTh4').value) || 150]),
+            rates_1yr: JSON.stringify([parseFloat($('obR1a').value) || 6, parseFloat($('obR1b').value) || 8, parseFloat($('obR1c').value) || 10, parseFloat($('obR1d').value) || 12]),
+            rates_2yr: JSON.stringify([parseFloat($('obR2a').value) || 8, parseFloat($('obR2b').value) || 10, parseFloat($('obR2c').value) || 12, parseFloat($('obR2d').value) || 14])
+        };
+        
+        const { data, error } = await supabase.from('comp_plans').insert(plan).select().single();
+        if (error) {
+            toast('Error saving: ' + error.message);
+            return;
+        }
+        
+        // Mark onboarded
+        await supabase.from('profiles').update({ onboarded: true }).eq('id', user.id);
+        
+        compPlan = data;
+        compPlan.tiers = JSON.parse(compPlan.tiers);
+        compPlan.rates_1yr = JSON.parse(compPlan.rates_1yr);
+        compPlan.rates_2yr = JSON.parse(compPlan.rates_2yr);
+        
+        showDashboard();
+        toast('Setup complete!');
+    }
+}
+
+// Dashboard
+function showDashboard() {
+    $('onboarding').classList.add('hidden');
+    $('dashboard').classList.remove('hidden');
+    $('userEmail').textContent = user.email;
+    initYear();
+    $('quarterSelect').value = curQ();
+    render();
+}
+
+function curQ() { const m = new Date().getMonth(); return m < 3 ? 'Q1' : m < 6 ? 'Q2' : m < 9 ? 'Q3' : 'Q4'; }
+function curY() { return new Date().getFullYear(); }
+function curM() { return new Date().getMonth(); }
+function getQ(d) { const m = new Date(d + 'T00:00:00').getMonth(); return m < 3 ? 'Q1' : m < 6 ? 'Q2' : m < 9 ? 'Q3' : 'Q4'; }
+function getM(d) { return new Date(d + 'T00:00:00').getMonth(); }
+function getY(d) { return new Date(d + 'T00:00:00').getFullYear(); }
+function fmtD(d) { return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+function qKey() { return $('yearSelect').value + '-' + $('quarterSelect').value; }
+function qMonths(q) { return q === 'Q1' ? [0,1,2] : q === 'Q2' ? [3,4,5] : q === 'Q3' ? [6,7,8] : [9,10,11]; }
+function mName(m) { return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m]; }
+
+function initYear() {
+    const s = $('yearSelect'), y = new Set([curY()]);
+    deals.forEach(d => { if (d.close_date) y.add(getY(d.close_date)); });
+    s.innerHTML = [...y].sort((a,b) => b - a).map(yr => `<option>${yr}</option>`).join('');
+}
+
+async function saveStarting() {
+    const key = qKey();
+    const amt = parseFloat($('startingPoint').value) || 0;
+    startingPoints[key] = amt;
+    
+    // Upsert to DB
+    await supabase.from('starting_points').upsert({
+        user_id: user.id,
+        comp_plan_id: compPlan.id,
+        quarter: key,
+        amount: amt
+    }, { onConflict: 'user_id,comp_plan_id,quarter' });
+    
+    render();
+}
+
+function filtered() {
+    const y = +$('yearSelect').value, q = $('quarterSelect').value;
+    return deals.filter(d => d.close_date && getY(d.close_date) === y && getQ(d.close_date) === q);
+}
+
+function calcComm(deals, start) {
+    const goal = compPlan.quarterly_goal;
+    const tiers = compPlan.tiers;
+    const r1 = compPlan.rates_1yr;
+    const r2 = compPlan.rates_2yr;
+    
+    const total = start + deals.reduce((s, d) => s + d.amount, 0);
+    const y1 = deals.filter(d => d.term === 1), y2 = deals.filter(d => d.term === 2);
+    const y1Tot = y1.reduce((s, d) => s + d.amount, 0), y2Tot = y2.reduce((s, d) => s + d.amount, 0), dTot = y1Tot + y2Tot;
+    const tierData = [];
+    let y1C = 0, y2C = 0;
+    
+    for (let i = 0; i < tiers.length; i++) {
+        const tS = tiers[i] / 100 * goal, tE = i < tiers.length - 1 ? tiers[i + 1] / 100 * goal : Infinity;
+        const revIn = Math.max(0, Math.min(total, tE) - tS);
+        if (revIn <= 0) { tierData.push({ tier: i + 1, rev: 0, comm: 0, start: tS, end: tE }); continue; }
+        const startIn = Math.max(0, Math.min(start, tE) - tS);
+        const dealsIn = revIn - startIn;
+        let y1In = 0, y2In = 0;
+        if (dTot > 0 && dealsIn > 0) { y1In = dealsIn * (y1Tot / dTot); y2In = dealsIn * (y2Tot / dTot); }
+        const y1Cm = y1In * r1[i] / 100, y2Cm = y2In * r2[i] / 100;
+        const avgR = (r1[i] + r2[i]) / 2, startCm = startIn * avgR / 100;
+        y1C += y1Cm; y2C += y2Cm;
+        tierData.push({ tier: i + 1, rev: revIn, y1: y1In, y2: y2In, comm: y1Cm + y2Cm + startCm, start: tS, end: tE });
+    }
+    return { y1C, y2C, total: tierData.reduce((s, t) => s + t.comm, 0), tierData, y1Tot, y2Tot };
+}
+
+function render() {
+    const goal = compPlan.quarterly_goal;
+    const tiers = compPlan.tiers;
+    const r1 = compPlan.rates_1yr;
+    const r2 = compPlan.rates_2yr;
+    
+    const start = startingPoints[qKey()] || 0;
+    $('startingPoint').value = start || '';
+    
+    const d = filtered(), dTot = d.reduce((s, x) => s + x.amount, 0), qtd = start + dTot, pct = qtd / goal * 100;
+    let tier = 0; for (let i = tiers.length - 1; i >= 0; i--) if (pct >= tiers[i]) { tier = i; break; }
+    const c = calcComm(d, start);
+    
+    $('qtdTotal').textContent = fmt(qtd);
+    $('qGoal').textContent = fmt(goal);
+    $('attainmentPct').textContent = pct.toFixed(1) + '%';
+    $('currentTier').textContent = 'Tier ' + (tier + 1);
+    $('tierRates').textContent = `1yr: ${r1[tier]}% · 2yr: ${r2[tier]}%`;
+    
+    const nx = tier + 1;
+    if (nx < tiers.length) {
+        $('toNext').textContent = fmt(Math.max(0, tiers[nx] / 100 * goal - qtd));
+        $('nextTierName').textContent = 'to Tier ' + (nx + 1);
+    } else {
+        $('toNext').textContent = 'Max!';
+        $('nextTierName').textContent = '';
+    }
+    
+    const mD = d.filter(x => getM(x.close_date) === curM() && getY(x.close_date) === curY());
+    $('monthTotal').textContent = fmt(mD.reduce((s, x) => s + x.amount, 0));
+    $('monthDeals').textContent = mD.length + ' deal' + (mD.length !== 1 ? 's' : '');
+    
+    $('progressBar').style.width = Math.min(100, pct / 175 * 100) + '%';
+    $('closedAmt').textContent = fmt(qtd);
+    $('remainingAmt').textContent = fmt(Math.max(0, goal - qtd));
+    
+    let bH = '';
+    for (const t of c.tierData) {
+        const a = t.rev > 0, eD = t.end === Infinity ? '∞' : fmt(t.end);
+        bH += `<div class="tier-row ${a ? 'active' : ''}"><span class="tier-color" style="background:var(--${['blue','purple','pink','orange'][t.tier-1]})"></span><div class="tier-info"><div class="tier-name">Tier ${t.tier} (${r1[t.tier-1]}%/${r2[t.tier-1]}%)</div><div class="tier-range">${fmt(t.start)} – ${eD}</div></div><div class="tier-amounts"><div class="tier-rev">${fmt(t.rev)}</div><div class="tier-comm">${fmt(t.comm)}</div></div></div>`;
+    }
+    $('tierBreakdown').innerHTML = bH;
+    
+    $('y1Comm').textContent = fmt(c.y1C);
+    $('y2Comm').textContent = fmt(c.y2C);
+    $('totalComm').textContent = fmt(c.total);
+    $('totalCommStat').textContent = fmt(c.total);
+    $('y1Rev').textContent = fmt(c.y1Tot);
+    $('y2Rev').textContent = fmt(c.y2Tot);
+    $('totalRev').textContent = fmt(dTot);
+    
+    const qM = qMonths($('quarterSelect').value), mf = $('monthFilter'), cv = mf.value;
+    mf.innerHTML = '<option value="all">All Months</option>' + qM.map(m => `<option value="${m}">${mName(m)}</option>`).join('');
+    mf.value = cv;
+    
+    renderDeals();
+}
+
+function renderDeals() {
+    let d = filtered();
+    const mf = $('monthFilter').value;
+    if (mf !== 'all') d = d.filter(x => getM(x.close_date) === +mf);
+    d.sort((a, b) => new Date(b.close_date) - new Date(a.close_date));
+    
+    const tb = $('dealsBody'), em = $('emptyDeals');
+    if (!d.length) { tb.innerHTML = ''; em.style.display = 'block'; return; }
+    em.style.display = 'none';
+    
+    tb.innerHTML = d.map(x => `
+        <tr>
+            <td style="font-weight:500">${x.name}</td>
+            <td style="font-family:monospace;font-weight:600">${fmt(x.amount)}</td>
+            <td><span class="badge ${x.term === 2 ? 'y2' : 'y1'}">${x.term}yr</span></td>
+            <td style="color:var(--text2)">${fmtD(x.close_date)}</td>
+            <td><span class="badge ${x.paid ? 'paid' : 'unpaid'}">${x.paid ? 'Paid' : 'Unpaid'}</span></td>
+            <td class="deal-actions">
+                ${!x.paid ? `<button onclick="markPaid('${x.id}')">💰</button>` : ''}
+                <button onclick="editDeal('${x.id}')">✎</button>
+                <button onclick="delDeal('${x.id}')">×</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Deal CRUD
+function setTerm(t) {
+    $('dealTerm').value = t;
+    document.querySelectorAll('.toggle-opt.y1,.toggle-opt.y2').forEach(e => e.classList.remove('active'));
+    document.querySelector(`.toggle-opt.y${t}`).classList.add('active');
+}
+
+function setPaid(p) {
+    $('dealPaid').value = p;
+    $('paidOpt').classList.toggle('active', p);
+    $('unpaidOpt').classList.toggle('active', !p);
+}
+
+function openDeal(id) {
+    $('dealModal').classList.add('active');
+    $('dealModalTitle').textContent = id ? 'Edit Deal' : 'Add Deal';
+    $('editId').value = id || '';
+    
+    if (id) {
+        const d = deals.find(x => x.id === id);
+        if (d) {
+            $('dealName').value = d.name;
+            $('dealAmt').value = d.amount;
+            $('dealDate').value = d.close_date;
+            setTerm(d.term || 1);
+            setPaid(d.paid || false);
+        }
+    } else {
+        $('dealName').value = '';
+        $('dealAmt').value = '';
+        $('dealDate').value = new Date().toISOString().split('T')[0];
+        setTerm(1);
+        setPaid(false);
+    }
+}
+
+function closeDeal() { $('dealModal').classList.remove('active'); }
+
+async function saveDeal() {
+    const n = $('dealName').value.trim();
+    const a = parseFloat($('dealAmt').value);
+    const dt = $('dealDate').value;
+    const tm = +$('dealTerm').value;
+    const pd = $('dealPaid').value === 'true';
+    const eid = $('editId').value;
+    
+    if (!n || isNaN(a) || !dt) { toast('Fill all fields'); return; }
+    
+    if (eid) {
+        const { error } = await supabase.from('deals').update({
+            name: n, amount: a, close_date: dt, term: tm, paid: pd
+        }).eq('id', eid);
+        if (error) { toast('Error: ' + error.message); return; }
+        const d = deals.find(x => x.id === eid);
+        if (d) { d.name = n; d.amount = a; d.close_date = dt; d.term = tm; d.paid = pd; }
+        toast('Updated');
+    } else {
+        const { data, error } = await supabase.from('deals').insert({
+            user_id: user.id,
+            comp_plan_id: compPlan.id,
+            name: n, amount: a, close_date: dt, term: tm, paid: pd
+        }).select().single();
+        if (error) { toast('Error: ' + error.message); return; }
+        deals.push(data);
+        toast('Deal added');
+    }
+    
+    closeDeal();
+    initYear();
+    render();
+}
+
+function editDeal(id) { openDeal(id); }
+
+async function delDeal(id) {
+    if (!confirm('Delete this deal?')) return;
+    const { error } = await supabase.from('deals').delete().eq('id', id);
+    if (error) { toast('Error: ' + error.message); return; }
+    deals = deals.filter(d => d.id !== id);
+    render();
+    toast('Deleted');
+}
+
+async function markPaid(id) {
+    const { error } = await supabase.from('deals').update({ paid: true }).eq('id', id);
+    if (error) { toast('Error: ' + error.message); return; }
+    const d = deals.find(x => x.id === id);
+    if (d) d.paid = true;
+    render();
+    toast('Marked paid');
+}
+
+// Settings
+function openSettings() {
+    $('settingsModal').classList.add('active');
+    $('setGoal').value = compPlan.quarterly_goal;
+    $('setTh2').value = compPlan.tiers[1];
+    $('setTh3').value = compPlan.tiers[2];
+    $('setTh4').value = compPlan.tiers[3];
+    $('setR1a').value = compPlan.rates_1yr[0];
+    $('setR1b').value = compPlan.rates_1yr[1];
+    $('setR1c').value = compPlan.rates_1yr[2];
+    $('setR1d').value = compPlan.rates_1yr[3];
+    $('setR2a').value = compPlan.rates_2yr[0];
+    $('setR2b').value = compPlan.rates_2yr[1];
+    $('setR2c').value = compPlan.rates_2yr[2];
+    $('setR2d').value = compPlan.rates_2yr[3];
+}
+
+function closeSettings() { $('settingsModal').classList.remove('active'); }
+
+async function saveSettings() {
+    const updates = {
+        quarterly_goal: +$('setGoal').value || 375000,
+        tiers: JSON.stringify([0, +$('setTh2').value || 100, +$('setTh3').value || 125, +$('setTh4').value || 150]),
+        rates_1yr: JSON.stringify([+$('setR1a').value || 6, +$('setR1b').value || 8, +$('setR1c').value || 10, +$('setR1d').value || 12]),
+        rates_2yr: JSON.stringify([+$('setR2a').value || 8, +$('setR2b').value || 10, +$('setR2c').value || 12, +$('setR2d').value || 14])
+    };
+    
+    const { error } = await supabase.from('comp_plans').update(updates).eq('id', compPlan.id);
+    if (error) { toast('Error: ' + error.message); return; }
+    
+    compPlan.quarterly_goal = updates.quarterly_goal;
+    compPlan.tiers = JSON.parse(updates.tiers);
+    compPlan.rates_1yr = JSON.parse(updates.rates_1yr);
+    compPlan.rates_2yr = JSON.parse(updates.rates_2yr);
+    
+    closeSettings();
+    render();
+    toast('Settings saved');
+}
+
+function exportCSV() {
+    if (!deals.length) { toast('No deals to export'); return; }
+    let c = 'Name,Amount,Date,Term,Paid\n';
+    deals.forEach(d => { c += `"${d.name}",${d.amount},${d.close_date},${d.term}yr,${d.paid ? 'Y' : 'N'}\n`; });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([c], { type: 'text/csv' }));
+    a.download = 'comish-deals.csv';
+    a.click();
+    toast('Exported');
+}
+
+// Init
+async function init() {
+    // Init Supabase with the anon key
+    supabase = window.supabase.createClient(SUPABASE_URL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllZWNtcmpra3VqdHN2cnRhdGxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyMTA5MzMsImV4cCI6MjA4MDc4NjkzM30.bKr372_-0v2yVGkDFJ87ys5gxQN6qzS5smLLvPmrar0');
+    
+    // Check for existing session
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (session) {
+        await loadUser(session.user);
+    }
+    
+    // Listen for auth changes
+    supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+            await loadUser(session.user);
+        }
+    });
+}
+
+async function loadUser(u) {
+    user = u;
+    $('landing').style.display = 'none';
+    $('app').style.display = 'block';
+    
+    // Check if onboarded
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+    
+    if (!profile || !profile.onboarded) {
+        showOnboarding();
+        return;
+    }
+    
+    // Load comp plan
+    const { data: plans } = await supabase.from('comp_plans').select('*').eq('user_id', user.id);
+    if (plans && plans.length) {
+        compPlan = plans[0];
+        compPlan.tiers = JSON.parse(compPlan.tiers);
+        compPlan.rates_1yr = JSON.parse(compPlan.rates_1yr);
+        compPlan.rates_2yr = JSON.parse(compPlan.rates_2yr);
+    }
+    
+    // Load deals
+    const { data: d } = await supabase.from('deals').select('*').eq('user_id', user.id);
+    deals = d || [];
+    
+    // Load starting points
+    const { data: sp } = await supabase.from('starting_points').select('*').eq('user_id', user.id);
+    if (sp) {
+        sp.forEach(s => { startingPoints[s.quarter] = s.amount; });
+    }
+    
+    showDashboard();
+}
+
+init();
+</script>
+</body>
+</html>
