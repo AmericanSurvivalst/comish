@@ -24,13 +24,14 @@ nav .links{display:flex;gap:2.5rem;align-items:center}
 nav .links a{color:var(--text2);font-size:0.9rem;font-weight:500;transition:color 0.2s}
 nav .links a:hover{color:var(--text)}
 .mobile-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.mobile-close{display:none;position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
 @media(max-width:768px){
 nav .links{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--card);flex-direction:column;justify-content:flex-start;padding:5rem 2rem 2rem;gap:1.5rem;transition:right 0.3s;border-left:1px solid var(--border)}
 nav .links.open{right:0}
 nav .links a{font-size:1.1rem}
 nav .links .btn{width:100%}
 .mobile-toggle{display:block}
-.mobile-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.mobile-close{display:block}
 }
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:0.875rem 1.75rem;border-radius:100px;font-weight:600;font-size:0.95rem;cursor:pointer;border:none;transition:all 0.3s;font-family:inherit}
 .btn-primary{background:var(--accent);color:#000;box-shadow:0 0 30px rgba(0,255,136,0.3)}
@@ -406,13 +407,13 @@ tr:hover{background:var(--bg2)}
 <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can it handle my complicated comp plan?<span>+</span></div><div class="faq-a"><p>Comish handles tiered commission structures with up to 4 tiers, different rates for 1 year vs 2 year contracts, and quarterly goals. If your plan is more complex than that, reach out and we will see if we can help.</p></div></div>
 <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is my commission data secure?<span>+</span></div><div class="faq-a"><p>Yes. Your data is encrypted in transit and at rest. We use Supabase for authentication and database, which provides bank level security. We never share your data with anyone.</p></div></div>
 <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I export my data?<span>+</span></div><div class="faq-a"><p>Yes. You can export all your deals to CSV at any time. Your data is yours.</p></div></div>
-<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What if I need help?<span>+</span></div><div class="faq-a"><p>Email scott@comish.app and I will personally respond within 24 hours. No support tickets, no chatbots.</p></div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What if I need help?<span>+</span></div><div class="faq-a"><p>Email info@comish.app and I will personally respond within 24 hours. No support tickets, no chatbots.</p></div></div>
 </div></div></section>
 <section class="section" id="pricing" style="background:linear-gradient(180deg,var(--bg2),var(--bg))"><div class="glow-2" style="top:50%;left:-200px;transform:translateY(-50%)"></div><div class="glow-3" style="top:50%;right:-150px;transform:translateY(-50%)"></div><div class="container">
 <h2 class="section-title">Simple pricing</h2>
 <p class="section-sub">No surprises. Just like your commission should be.</p>
 <div class="pricing-grid">
-<div class="price-card featured"><div class="price-badge">Most Popular</div><div class="price-name">Pro</div><div class="price-amount">$12<span>/mo</span></div><div class="price-period">Billed monthly. Cancel anytime.</div>
+<div class="price-card featured"><div class="price-badge">Most Popular</div><div class="price-name">Pro</div><div class="price-amount">$5<span>/mo</span></div><div class="price-period">Billed monthly. Cancel anytime.</div>
 <ul class="price-features"><li>Unlimited deals</li><li>Tiered commission calculation</li><li>1 year and 2 year rate support</li><li>Quarterly and monthly views</li><li>CSV export</li><li>Mobile friendly</li><li>14 day free trial</li></ul>
 <button class="btn btn-primary btn-lg" onclick="showAuth('signup')">Start Free Trial</button></div>
 <div class="price-card"><div class="price-badge" style="background:var(--purple)">Coming Soon</div><div class="price-name">Team</div><div class="price-amount">$49<span>/mo</span></div><div class="price-period">Up to 10 reps</div>
@@ -429,7 +430,7 @@ tr:hover{background:var(--bg2)}
 <div class="footer-content">
 <div class="footer-brand"><div class="logo">Com<span>ish</span></div><p>Commission tracking for sales reps who want to know exactly what they are getting paid.</p></div>
 <div class="footer-links"><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
-<div class="footer-links"><h4>Legal</h4><a href="#" onclick="alert('Privacy policy coming soon')">Privacy Policy</a><a href="#" onclick="alert('Terms coming soon')">Terms of Service</a><a href="mailto:scott@comish.app">Contact</a></div>
+<div class="footer-links"><h4>Legal</h4><a href="#" onclick="alert('Privacy policy coming soon')">Privacy Policy</a><a href="#" onclick="alert('Terms coming soon')">Terms of Service</a><a href="mailto:info@comish.app">Contact</a></div>
 </div>
 <div class="footer-bottom">© 2025 Comish. All rights reserved.</div>
 </footer>
