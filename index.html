@@ -311,6 +311,30 @@ tr:hover{background:var(--bg2)}
 .quarter-revenue{font-size:1.25rem;font-weight:700;margin-bottom:0.25rem}
 .quarter-commission{font-size:0.9rem;color:var(--accent)}
 .quarter-deals{font-size:0.75rem;color:var(--muted);margin-top:0.5rem}
+.profile-page{min-height:100vh;background:var(--bg);position:relative;z-index:1}
+.profile-container{max-width:700px;margin:0 auto;padding:2rem}
+.profile-header{margin-bottom:2rem}
+.profile-header h1{font-size:1.75rem;font-weight:700;margin-bottom:0.25rem}
+.profile-header p{color:var(--text2)}
+.profile-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+.profile-card-title{font-weight:600;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.profile-row{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px solid var(--border)}
+.profile-row:last-child{border-bottom:none}
+.profile-row-label{color:var(--text2);font-size:0.9rem}
+.profile-row-value{font-weight:500}
+.subscription-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.75rem;border-radius:20px;font-size:0.85rem;font-weight:600}
+.subscription-badge.trial{background:rgba(250,204,21,0.15);color:var(--yellow)}
+.subscription-badge.active{background:rgba(0,255,136,0.15);color:var(--accent)}
+.subscription-badge.expired{background:rgba(239,68,68,0.15);color:#ef4444}
+.trial-banner{background:linear-gradient(135deg,rgba(250,204,21,0.1),rgba(250,204,21,0.05));border:1px solid rgba(250,204,21,0.3);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.trial-banner-text{display:flex;align-items:center;gap:0.75rem}
+.trial-banner-text span{font-size:1.5rem}
+.trial-banner-info strong{display:block;color:var(--yellow)}
+.trial-banner-info p{font-size:0.85rem;color:var(--text2)}
+.danger-zone{border-color:rgba(239,68,68,0.3)}
+.danger-zone .profile-card-title{color:#ef4444}
+.btn-danger{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+.btn-danger:hover{background:rgba(239,68,68,0.25)}
 .deal-modal .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:500px){.deal-modal .form-row{grid-template-columns:1fr}}
 .toggle-group{display:flex;background:var(--bg);border-radius:10px;padding:4px}
@@ -465,7 +489,7 @@ tr:hover{background:var(--bg2)}
 <div class="onboard-footer"><button class="btn btn-ghost" id="obBack" onclick="onboardBack()" style="visibility:hidden">Back</button><button class="btn btn-primary" id="obNext" onclick="onboardNext()">Next</button></div>
 </div></div>
 <div id="dashboard" class="dashboard hidden">
-<nav class="dash-nav"><div class="logo">Com<span>ish</span></div><div class="user-menu"><span class="user-email" id="userEmail"></span><button class="btn btn-ghost" onclick="logout()">Log out</button></div></nav>
+<nav class="dash-nav"><div class="logo">Com<span>ish</span></div><div class="user-menu"><span class="user-email" id="userEmail"></span><button class="btn btn-ghost" onclick="showProfile()">Account</button><button class="btn btn-ghost" onclick="logout()">Log out</button></div></nav>
 <div class="dash-container">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
 <div class="view-toggle"><button class="active" onclick="setView('quarter')">Quarter</button><button onclick="setView('year')">Year</button></div>
@@ -518,7 +542,64 @@ tr:hover{background:var(--bg2)}
 <div class="monthly-grid" id="monthlyGrid"></div>
 </div>
 </div>
-</div></div>
+</div>
+<div id="profilePage" class="profile-page hidden">
+<nav class="dash-nav"><div class="logo">Com<span>ish</span></div><div class="user-menu"><span class="user-email" id="profileUserEmail"></span><button class="btn btn-ghost" onclick="logout()">Log out</button></div></nav>
+<div class="profile-container">
+<div class="profile-header">
+<h1>Account Settings</h1>
+<p>Manage your profile and subscription</p>
+</div>
+<div class="trial-banner" id="trialBanner">
+<div class="trial-banner-text">
+<span>⏰</span>
+<div class="trial-banner-info">
+<strong id="trialDaysLeft">14 days left in your free trial</strong>
+<p>Subscribe to keep tracking your commission</p>
+</div>
+</div>
+<button class="btn btn-primary" onclick="subscribe()">Subscribe - $5/mo</button>
+</div>
+<div class="profile-card">
+<div class="profile-card-title">Subscription</div>
+<div class="profile-row">
+<span class="profile-row-label">Status</span>
+<span class="subscription-badge trial" id="subStatus">Free Trial</span>
+</div>
+<div class="profile-row">
+<span class="profile-row-label">Plan</span>
+<span class="profile-row-value">Pro - $5/month</span>
+</div>
+<div class="profile-row" id="renewalRow" style="display:none">
+<span class="profile-row-label">Next billing date</span>
+<span class="profile-row-value" id="renewalDate">-</span>
+</div>
+<div class="profile-row" id="manageSubRow" style="display:none">
+<span class="profile-row-label">Manage</span>
+<button class="btn btn-secondary" onclick="manageSubscription()">Manage Subscription</button>
+</div>
+</div>
+<div class="profile-card">
+<div class="profile-card-title">Account</div>
+<div class="profile-row">
+<span class="profile-row-label">Email</span>
+<span class="profile-row-value" id="profileEmail">-</span>
+</div>
+<div class="profile-row">
+<span class="profile-row-label">Password</span>
+<button class="btn btn-secondary" onclick="showChangePassword()">Change Password</button>
+</div>
+</div>
+<div class="profile-card danger-zone">
+<div class="profile-card-title">Danger Zone</div>
+<div class="profile-row">
+<span class="profile-row-label">Delete all your data and close your account</span>
+<button class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+</div>
+</div>
+<button class="btn btn-secondary" onclick="showDashboard()" style="margin-top:1rem">← Back to Dashboard</button>
+</div>
+</div>
 <div class="modal-overlay deal-modal" id="dealModal"><div class="modal"><div class="modal-header"><h2 id="dealModalTitle">Add Deal</h2><button class="modal-close" onclick="closeDeal()">×</button></div><div class="modal-body"><input type="hidden" id="editId">
 <div class="form-group"><label class="form-label">Client Name</label><input type="text" class="form-input" id="dealName" placeholder="Acme Corp"></div>
 <div class="form-row"><div class="form-group"><label class="form-label">Amount ($)</label><input type="number" class="form-input" id="dealAmt" placeholder="50000"></div><div class="form-group"><label class="form-label">Close Date</label><input type="date" class="form-input" id="dealDate"></div></div>
@@ -531,6 +612,14 @@ tr:hover{background:var(--bg2)}
 <div class="form-group"><label class="form-label">1 Year Rates (%)</label><div class="rate-grid"><input type="number" class="form-input" id="setR1a"><input type="number" class="form-input" id="setR1b"><input type="number" class="form-input" id="setR1c"><input type="number" class="form-input" id="setR1d"></div></div>
 <div class="form-group"><label class="form-label">2 Year Rates (%)</label><div class="rate-grid"><input type="number" class="form-input" id="setR2a"><input type="number" class="form-input" id="setR2b"><input type="number" class="form-input" id="setR2c"><input type="number" class="form-input" id="setR2d"></div></div>
 </div><div style="padding:1.25rem 2rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.75rem"><button class="btn btn-secondary" onclick="closeSettings()">Cancel</button><button class="btn btn-primary" onclick="saveSettings()">Save</button></div></div></div>
+<div class="modal-overlay" id="passwordModal"><div class="modal"><div class="modal-header"><h2>Change Password</h2><button class="modal-close" onclick="hideChangePassword()">×</button></div><div class="modal-body">
+<form onsubmit="changePassword(event)">
+<div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" id="newPassword" required minlength="6" placeholder="At least 6 characters"></div>
+<div class="form-group"><label class="form-label">Confirm Password</label><input type="password" class="form-input" id="confirmPassword" required minlength="6" placeholder="Confirm new password"></div>
+<div class="form-error" id="passwordError"></div>
+<button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:0.5rem">Update Password</button>
+</form>
+</div></div></div>
 <div class="toast-wrap" id="toasts"></div>
 <script>
 const SUPABASE_URL='https://yeecmrjkkujtsvrtatlg.supabase.co';
@@ -556,12 +645,22 @@ function showOnboarding(){$('onboarding').classList.remove('hidden');$('dashboar
 function updateOnboardUI(){for(let i=1;i<=3;i++){$(`ob-step-${i}`).className='step'+(i<onboardStep?' done':i===onboardStep?' active':'');$(`ob-content-${i}`).classList.toggle('hidden',i!==onboardStep)}$('obBack').style.visibility=onboardStep===1?'hidden':'visible';$('obNext').textContent=onboardStep===3?'Finish Setup':'Continue';const t=['Set Your Quarterly Goal','Configure Tier Thresholds','Set Commission Rates'],d=["What is your quota for the quarter?",'At what % of goal do you hit each tier?','What % do you earn at each tier?'];$('onboardTitle').textContent=t[onboardStep-1];$('onboardDesc').textContent=d[onboardStep-1]}
 function onboardBack(){if(onboardStep>1){onboardStep--;updateOnboardUI()}}
 async function onboardNext(){if(onboardStep<3){onboardStep++;updateOnboardUI()}else{const plan={user_id:user.id,quarterly_goal:parseFloat($('obGoal').value)||375000,tiers:JSON.stringify([0,parseFloat($('obTh2').value)||100,parseFloat($('obTh3').value)||125,parseFloat($('obTh4').value)||150]),rates_1yr:JSON.stringify([parseFloat($('obR1a').value)||6,parseFloat($('obR1b').value)||8,parseFloat($('obR1c').value)||10,parseFloat($('obR1d').value)||12]),rates_2yr:JSON.stringify([parseFloat($('obR2a').value)||8,parseFloat($('obR2b').value)||10,parseFloat($('obR2c').value)||12,parseFloat($('obR2d').value)||14])};const{data,error}=await supabase.from('comp_plans').insert(plan).select().single();if(error){toast('Error: '+error.message);return}await supabase.from('profiles').update({onboarded:true}).eq('id',user.id);compPlan=data;compPlan.tiers=JSON.parse(compPlan.tiers);compPlan.rates_1yr=JSON.parse(compPlan.rates_1yr);compPlan.rates_2yr=JSON.parse(compPlan.rates_2yr);showDashboard();toast('Setup complete!')}}
-function showDashboard(){$('onboarding').classList.add('hidden');$('dashboard').classList.remove('hidden');$('userEmail').textContent=user.email;initYear();$('quarterSelect').value=curQ();render()}
+function showDashboard(){$('onboarding').classList.add('hidden');$('dashboard').classList.remove('hidden');$('profilePage').classList.add('hidden');$('userEmail').textContent=user.email;initYear();$('quarterSelect').value=curQ();render()}
 let currentView='quarter';
 function setView(v){currentView=v;document.querySelectorAll('.view-toggle button').forEach(b=>b.classList.remove('active'));document.querySelector(`.view-toggle button:${v==='quarter'?'first':'last'}-child`).classList.add('active');$('quarterView').classList.toggle('hidden',v!=='quarter');$('yearView').classList.toggle('hidden',v!=='year');$('quarterSelect').style.display=v==='quarter'?'block':'none';if(v==='year')renderYearView()}
 function renderYearView(){const y=+$('yearSelect').value;const yearDeals=deals.filter(d=>d.close_date&&getY(d.close_date)===y);const months=[0,1,2,3,4,5,6,7,8,9,10,11];const monthData=months.map(m=>{const mDeals=yearDeals.filter(d=>getM(d.close_date)===m);const rev=mDeals.reduce((s,d)=>s+d.amount,0);const comm=calcMonthComm(mDeals,m,y);return{month:m,deals:mDeals.length,revenue:rev,commission:comm}});const totalRev=monthData.reduce((s,m)=>s+m.revenue,0);const totalComm=monthData.reduce((s,m)=>s+m.commission,0);const totalDeals=monthData.reduce((s,m)=>s+m.deals,0);const bestMonth=monthData.reduce((best,m)=>m.revenue>best.revenue?m:best,{revenue:0});const avgRev=totalRev/12;$('yearlySummary').innerHTML=`<div class="yearly-card highlight"><div class="yearly-card-label">Total Revenue</div><div class="yearly-card-value">${fmt(totalRev)}</div><div class="yearly-card-sub">${totalDeals} deals closed</div></div><div class="yearly-card highlight"><div class="yearly-card-label">Total Commission</div><div class="yearly-card-value green">${fmt(totalComm)}</div><div class="yearly-card-sub">YTD earnings</div></div><div class="yearly-card"><div class="yearly-card-label">Monthly Average</div><div class="yearly-card-value">${fmt(avgRev)}</div><div class="yearly-card-sub">revenue per month</div></div><div class="yearly-card"><div class="yearly-card-label">Best Month</div><div class="yearly-card-value">${bestMonth.revenue>0?mName(bestMonth.month):'N/A'}</div><div class="yearly-card-sub">${bestMonth.revenue>0?fmt(bestMonth.revenue):''}</div></div>`;const maxRev=Math.max(...monthData.map(m=>m.revenue),1);const maxComm=Math.max(...monthData.map(m=>m.commission),1);$('barChart').innerHTML=monthData.map(m=>`<div class="bar-group"><div class="bar-container"><div class="bar revenue" style="height:${(m.revenue/maxRev)*100}%"><div class="bar-tooltip">${fmt(m.revenue)}</div></div><div class="bar commission" style="height:${(m.commission/maxComm)*100}%"><div class="bar-tooltip">${fmt(m.commission)}</div></div></div><div class="bar-label">${mName(m.month).slice(0,3)}</div></div>`).join('');const quarters=['Q1','Q2','Q3','Q4'];const qData=quarters.map((q,i)=>{const qMonths=[i*3,i*3+1,i*3+2];const qDeals=yearDeals.filter(d=>qMonths.includes(getM(d.close_date)));const rev=qDeals.reduce((s,d)=>s+d.amount,0);const sp=startingPoints[y+'-'+q]||0;const comm=calcComm(qDeals,sp).total;return{q,revenue:rev,commission:comm,deals:qDeals.length}});const curQuarter=curQ();$('quarterCompare').innerHTML=qData.map(qd=>`<div class="quarter-card ${qd.q===curQuarter?'active':''}"><div class="quarter-name">${qd.q} ${y}</div><div class="quarter-revenue">${fmt(qd.revenue)}</div><div class="quarter-commission">${fmt(qd.commission)}</div><div class="quarter-deals">${qd.deals} deals</div></div>`).join('');const curMonth=curM();$('monthlyGrid').innerHTML=monthData.map(m=>`<div class="month-card ${m.month===curMonth&&y===curY()?'current':''}"><div class="month-card-header"><span class="month-name">${mName(m.month)}</span>${m.month===curMonth&&y===curY()?'<span class="month-badge">Current</span>':''}</div><div class="month-stat"><span class="month-stat-label">Revenue</span><span class="month-stat-value">${fmt(m.revenue)}</span></div><div class="month-stat"><span class="month-stat-label">Commission</span><span class="month-stat-value green">${fmt(m.commission)}</span></div><div class="month-stat"><span class="month-stat-label">Deals</span><span class="month-stat-value">${m.deals}</span></div></div>`).join('')}
 function calcMonthComm(mDeals,month,year){const q=month<3?'Q1':month<6?'Q2':month<9?'Q3':'Q4';const y=year;const allQDeals=deals.filter(d=>d.close_date&&getY(d.close_date)===y&&getQ(d.close_date)===q);const dealsBeforeMonth=allQDeals.filter(d=>getM(d.close_date)<month);const sp=startingPoints[y+'-'+q]||0;const revBefore=sp+dealsBeforeMonth.reduce((s,d)=>s+d.amount,0);const revAfter=revBefore+mDeals.reduce((s,d)=>s+d.amount,0);const commBefore=calcCommAtRev(revBefore);const commAfter=calcCommAtRev(revAfter);return commAfter-commBefore}
 function calcCommAtRev(rev){if(!compPlan)return 0;const goal=compPlan.quarterly_goal,tiers=compPlan.tiers,r1=compPlan.rates_1yr,r2=compPlan.rates_2yr;let comm=0;for(let i=0;i<tiers.length;i++){const tS=tiers[i]/100*goal,tE=i<tiers.length-1?tiers[i+1]/100*goal:Infinity;const revIn=Math.max(0,Math.min(rev,tE)-tS);if(revIn<=0)continue;const avgR=(r1[i]+r2[i])/2;comm+=revIn*avgR/100}return comm}
+let userProfile=null;
+function showProfile(){$('dashboard').classList.add('hidden');$('profilePage').classList.remove('hidden');$('profileEmail').textContent=user.email;$('profileUserEmail').textContent=user.email;updateSubscriptionUI()}
+function hideProfile(){$('profilePage').classList.add('hidden');$('dashboard').classList.remove('hidden')}
+async function updateSubscriptionUI(){if(!userProfile){const{data}=await supabase.from('profiles').select('*').eq('id',user.id).single();userProfile=data}const status=userProfile?.subscription_status||'trial';const trialEnd=userProfile?.trial_ends_at?new Date(userProfile.trial_ends_at):new Date(Date.now()+14*24*60*60*1000);const now=new Date();const daysLeft=Math.max(0,Math.ceil((trialEnd-now)/(1000*60*60*24)));const statusEl=$('subStatus');const trialBanner=$('trialBanner');const renewalRow=$('renewalRow');const manageRow=$('manageSubRow');if(status==='active'){statusEl.textContent='Active';statusEl.className='subscription-badge active';trialBanner.style.display='none';renewalRow.style.display='flex';manageRow.style.display='flex';$('renewalDate').textContent=userProfile.current_period_end?new Date(userProfile.current_period_end).toLocaleDateString():'—'}else if(status==='canceled'){statusEl.textContent='Canceled';statusEl.className='subscription-badge expired';trialBanner.style.display='none';renewalRow.style.display='none';manageRow.style.display='none'}else if(daysLeft<=0){statusEl.textContent='Trial Expired';statusEl.className='subscription-badge expired';$('trialDaysLeft').textContent='Your free trial has ended';trialBanner.style.display='flex';renewalRow.style.display='none';manageRow.style.display='none'}else{statusEl.textContent='Free Trial';statusEl.className='subscription-badge trial';$('trialDaysLeft').textContent=`${daysLeft} day${daysLeft!==1?'s':''} left in your free trial`;trialBanner.style.display='flex';renewalRow.style.display='none';manageRow.style.display='none'}}
+function subscribe(){window.open('https://buy.stripe.com/YOUR_STRIPE_PAYMENT_LINK','_blank');toast('Complete payment in the new tab')}
+function manageSubscription(){window.open('https://billing.stripe.com/p/login/YOUR_PORTAL_LINK','_blank')}
+function showChangePassword(){$('passwordModal').classList.add('active');$('newPassword').value='';$('confirmPassword').value='';$('passwordError').classList.remove('show')}
+function hideChangePassword(){$('passwordModal').classList.remove('active')}
+async function changePassword(e){e.preventDefault();const newPw=$('newPassword').value;const confirmPw=$('confirmPassword').value;if(newPw!==confirmPw){$('passwordError').textContent='Passwords do not match';$('passwordError').classList.add('show');return}const{error}=await supabase.auth.updateUser({password:newPw});if(error){$('passwordError').textContent=error.message;$('passwordError').classList.add('show');return}hideChangePassword();toast('Password updated')}
+async function deleteAccount(){if(!confirm('Are you sure? This will permanently delete all your data.'))return;if(!confirm('This cannot be undone. Type DELETE to confirm.')&&prompt('Type DELETE to confirm')!=='DELETE')return;await supabase.from('deals').delete().eq('user_id',user.id);await supabase.from('comp_plans').delete().eq('user_id',user.id);await supabase.from('starting_points').delete().eq('user_id',user.id);await supabase.from('profiles').delete().eq('id',user.id);await supabase.auth.signOut();toast('Account deleted');user=null;compPlan=null;deals=[];$('app').style.display='none';$('landing').style.display='block'}
 function curQ(){const m=new Date().getMonth();return m<3?'Q1':m<6?'Q2':m<9?'Q3':'Q4'}
 function curY(){return new Date().getFullYear()}
 function curM(){return new Date().getMonth()}
