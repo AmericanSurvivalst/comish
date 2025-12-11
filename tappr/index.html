@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tappr | One Tap. Every Connection.</title>
+    <meta name="description" content="NFC business cards that share your contact info with one tap. No app needed. Update anytime. Starting at $3/month.">
+    <meta name="keywords" content="NFC business card, digital business card, smart business card, tap to share contact, contactless business card">
+    <meta name="author" content="Tappr">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tappr.one/">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tappr.one/">
+    <meta property="og:title" content="Tappr | One Tap. Every Connection.">
+    <meta property="og:description" content="NFC business cards that share your contact info with one tap. No app needed. Update anytime.">
+    <meta property="og:image" content="https://tappr.one/og-image.png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://tappr.one/">
+    <meta name="twitter:title" content="Tappr | One Tap. Every Connection.">
+    <meta name="twitter:description" content="NFC business cards that share your contact info with one tap. No app needed. Update anytime.">
+    <meta name="twitter:image" content="https://tappr.one/og-image.png">
+    
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Tappr",
+      "description": "NFC business cards that share your contact info with one tap. No app needed.",
+      "brand": {"@type": "Brand", "name": "Tappr"},
+      "offers": {"@type": "AggregateOffer", "lowPrice": "3.00", "highPrice": "40.00", "priceCurrency": "USD"}
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "How does Tappr work?", "acceptedAnswer": {"@type": "Answer", "text": "Your Tappr card has an NFC chip inside. When you tap it against someone's phone, it opens your profile in their browser instantly. No app needed on either end."}},
+        {"@type": "Question", "name": "Do I need to install an app?", "acceptedAnswer": {"@type": "Answer", "text": "Nope. The person you're sharing with doesn't need an app either. Your profile opens directly in their web browser."}},
+        {"@type": "Question", "name": "What if I change jobs or phone numbers?", "acceptedAnswer": {"@type": "Answer", "text": "Just update your profile at app.tappr.one. Changes appear instantly. No reprinting, no new card needed."}},
+        {"@type": "Question", "name": "Which phones work with NFC?", "acceptedAnswer": {"@type": "Answer", "text": "All iPhones from XR/XS and newer, plus most Android phones from the last 5 years. That covers about 90% of smartphones."}}
+      ]
+    }
+    </script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+    --bg:#0a0a0f;--bg2:#0f0f18;--card:#12121c;--card2:#1a1a28;
+    --border:#1e1e2e;--text:#f8fafc;--text2:#94a3b8;--muted:#64748b;
+    --accent:#3b82f6;--accent2:#2563eb;--green:#00ff88;--purple:#a855f7
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* Animated floating blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:0.5;animation:float 20s ease-in-out infinite}
+.blob-1{width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,0.4),transparent 70%);top:-200px;right:-100px;animation-delay:0s}
+.blob-2{width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,0.3),transparent 70%);bottom:-150px;left:-100px;animation-delay:-7s}
+.blob-3{width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,0.2),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-14s}
+@keyframes float{0%,100%{transform:translate(0,0)}25%{transform:translate(30px,-30px)}50%{transform:translate(-20px,20px)}75%{transform:translate(20px,30px)}}
+
+/* Grain overlay for texture */
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");opacity:0.03;pointer-events:none;z-index:9999}
+
+/* Navigation */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;backdrop-filter:blur(20px);background:rgba(10,10,15,0.8);border-bottom:1px solid rgba(255,255,255,0.05)}
+.nav-content{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.5rem;font-weight:800;letter-spacing:-0.02em}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{color:var(--text2);font-size:0.9rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:0.75rem 1.5rem;border-radius:10px;font-weight:600;font-size:0.9rem;transition:all 0.2s;border:none;cursor:pointer}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 15px rgba(59,130,246,0.3)}
+.btn-primary:hover{background:var(--accent2);box-shadow:0 8px 25px rgba(59,130,246,0.4);transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);background:rgba(59,130,246,0.1)}
+.btn-lg{padding:1rem 2.5rem;font-size:1rem}
+.mobile-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+@media(max-width:768px){
+    .nav-links{position:fixed;top:60px;left:0;right:0;background:var(--bg);flex-direction:column;padding:2rem;gap:1.5rem;transform:translateY(-150%);transition:transform 0.3s;border-bottom:1px solid var(--border)}
+    .nav-links.open{transform:translateY(0)}
+    .mobile-toggle{display:block}
+}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:100px;font-size:0.85rem;color:var(--accent);margin-bottom:2rem}
+.hero h1{font-size:clamp(3rem,8vw,5rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.5rem}
+.hero h1 span{background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.25rem;color:var(--text2);max-width:550px;margin:0 auto 2.5rem}
+.hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* Section dividers */
+.wave-divider{position:relative;height:100px;overflow:hidden}
+.wave-divider svg{position:absolute;bottom:0;width:100%;height:100px}
+.wave-divider.flip svg{transform:scaleY(-1)}
+
+/* Demo Section */
+.demo-section{padding:4rem 2rem 8rem;position:relative;background:var(--bg2)}
+.demo-container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:800px){.demo-container{grid-template-columns:1fr;text-align:center}}
+.demo-text h2{font-size:2.5rem;font-weight:800;margin-bottom:1rem;letter-spacing:-0.02em}
+.demo-text p{color:var(--text2);font-size:1.1rem;margin-bottom:2rem;max-width:450px}
+@media(max-width:800px){.demo-text p{margin:0 auto 2rem}}
+.demo-features{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+@media(max-width:800px){.demo-features{align-items:center}}
+.demo-feature{display:flex;align-items:center;gap:0.75rem;color:var(--text2)}
+.demo-feature-check{color:var(--accent);font-weight:600}
+.phone-mockup{display:flex;justify-content:center;animation:phoneFloat 6s ease-in-out infinite}
+@keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.phone-frame{width:280px;background:var(--card);border:3px solid var(--border);border-radius:40px;padding:0.75rem;box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 100px rgba(59,130,246,0.15)}
+.phone-notch{width:100px;height:24px;background:var(--bg);border-radius:20px;margin:0 auto 1rem}
+.phone-screen{background:var(--bg);border-radius:24px;padding:1.5rem;min-height:420px}
+.profile-header{text-align:center;margin-bottom:1.5rem}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:700;margin:0 auto 1rem;box-shadow:0 8px 24px rgba(59,130,246,0.3)}
+.profile-header h3{font-size:1.25rem;font-weight:700;margin-bottom:0.25rem}
+.profile-header p{color:var(--text2);font-size:0.85rem}
+.profile-links{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem}
+.profile-link{display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:0.85rem;transition:all 0.2s;text-decoration:none}
+.profile-link:hover{border-color:var(--accent);transform:translateX(4px)}
+.profile-link-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:600}
+.save-contact-btn{width:100%;padding:0.875rem;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(59,130,246,0.3)}
+
+/* How It Works - Horizontal timeline style */
+.how-it-works{padding:8rem 2rem;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--bg) 0%,rgba(59,130,246,0.03) 50%,var(--bg) 100%)}
+.how-it-works .blob{width:800px;height:800px;background:radial-gradient(circle,rgba(59,130,246,0.12),transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.section-header{text-align:center;max-width:600px;margin:0 auto 4rem;position:relative;z-index:1}
+.section-header h2{font-size:clamp(2rem,5vw,3rem);font-weight:800;margin-bottom:1rem;letter-spacing:-0.02em}
+.section-header p{color:var(--text2);font-size:1.1rem}
+.timeline{display:flex;justify-content:center;gap:0;max-width:1000px;margin:0 auto;position:relative}
+.timeline::before{content:'';position:absolute;top:40px;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent),transparent);box-shadow:0 0 20px rgba(59,130,246,0.5)}
+@media(max-width:800px){.timeline{flex-direction:column;gap:2rem}.timeline::before{display:none}}
+.timeline-step{flex:1;text-align:center;padding:0 1.5rem;position:relative;z-index:1}
+.timeline-icon{width:80px;height:80px;border-radius:50%;background:var(--card);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;color:var(--accent);box-shadow:0 0 40px rgba(59,130,246,0.4),inset 0 0 20px rgba(59,130,246,0.1);transition:all 0.3s}
+.timeline-step:hover .timeline-icon{transform:scale(1.1);box-shadow:0 0 60px rgba(59,130,246,0.5),inset 0 0 30px rgba(59,130,246,0.15)}
+.timeline-step h3{font-size:1.15rem;margin-bottom:0.5rem}
+.timeline-step p{color:var(--text2);font-size:0.95rem;line-height:1.6}
+
+/* Features - Bento grid style */
+.features-section{padding:8rem 2rem;background:var(--bg2);position:relative;overflow:hidden}
+.features-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.features-section::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:100px;background:linear-gradient(180deg,transparent,var(--accent),transparent)}
+.bento-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:1.5rem;max-width:1100px;margin:0 auto;position:relative;z-index:1}
+@media(max-width:900px){.bento-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.bento-grid{grid-template-columns:1fr}}
+.bento-card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:24px;padding:2rem;transition:all 0.4s;position:relative;overflow:hidden}
+.bento-card::before{content:'';position:absolute;top:0;right:0;width:150px;height:150px;background:radial-gradient(circle,rgba(59,130,246,0.1),transparent 70%);opacity:0;transition:opacity 0.4s;pointer-events:none}
+.bento-card::after{content:'';position:absolute;inset:0;border-radius:24px;padding:1px;background:linear-gradient(180deg,rgba(59,130,246,0.4),transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.4s}
+.bento-card:hover{transform:translateY(-8px);border-color:transparent;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.bento-card:hover::before{opacity:1}
+.bento-card:hover::after{opacity:1}
+.bento-card.large{grid-column:span 2}
+@media(max-width:600px){.bento-card.large{grid-column:span 1}}
+.bento-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(59,130,246,0.05));border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;color:var(--accent)}
+.bento-card h3{font-size:1.2rem;margin-bottom:0.75rem}
+.bento-card p{color:var(--text2);font-size:0.95rem;line-height:1.6}
+
+/* Who It's For - Scrolling cards */
+.personas-section{padding:8rem 2rem;position:relative;overflow:hidden;background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.personas-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;border:1px solid rgba(59,130,246,0.1);border-radius:50%;pointer-events:none}
+.personas-section::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border:1px solid rgba(168,85,247,0.08);border-radius:50%;pointer-events:none}
+.personas-section .blob{width:600px;height:600px;background:radial-gradient(circle,rgba(168,85,247,0.15),transparent 60%);top:0;right:-200px}
+.personas-scroll{display:flex;gap:1.5rem;max-width:1200px;margin:0 auto;overflow-x:auto;padding:1rem 0 2rem;scrollbar-width:none;-ms-overflow-style:none;position:relative;z-index:1}
+.personas-scroll::-webkit-scrollbar{display:none}
+.persona-card{min-width:320px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:24px;padding:2rem;transition:all 0.4s;flex-shrink:0;position:relative;overflow:hidden}
+.persona-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent,rgba(59,130,246,0.1),transparent 30%);opacity:0;transition:opacity 0.4s;animation:spin 4s linear infinite paused}
+.persona-card:hover::before{opacity:1;animation-play-state:running}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.persona-card:hover{border-color:var(--accent);transform:translateY(-8px);box-shadow:0 20px 60px rgba(59,130,246,0.15)}
+.persona-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(59,130,246,0.05));border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;color:var(--accent)}
+.persona-card h3{font-size:1.15rem;margin-bottom:0.75rem}
+.persona-card p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+
+/* Pricing */
+.pricing-section{padding:8rem 2rem;background:var(--bg2);position:relative;overflow:hidden}
+.pricing-section::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,0.1),transparent 60%);pointer-events:none}
+.pricing-section::after{content:'';position:absolute;bottom:-200px;left:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,0.08),transparent 60%);pointer-events:none}
+.pricing-toggle{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:3rem}
+.toggle-label{color:var(--muted);font-size:0.95rem;font-weight:500;transition:color 0.3s;cursor:pointer}
+.toggle-label.active{color:var(--text)}
+.toggle-switch{width:60px;height:32px;background:var(--card);border:1px solid var(--border);border-radius:100px;cursor:pointer;position:relative;transition:all 0.3s}
+.toggle-switch:hover{border-color:var(--accent)}
+.toggle-slider{position:absolute;top:3px;left:3px;width:24px;height:24px;background:var(--accent);border-radius:50%;transition:transform 0.3s;box-shadow:0 0 15px rgba(59,130,246,0.5)}
+.toggle-switch.free .toggle-slider{transform:translateX(28px)}
+.pricing-subtitle{text-align:center;color:var(--text2);margin-bottom:3rem;font-size:1rem}
+.pricing-subtitle span{color:var(--accent);font-weight:600}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;position:relative;z-index:1}
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr;max-width:400px}}
+.pricing-card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:24px;padding:2.5rem;position:relative;transition:all 0.4s;overflow:hidden}
+.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transform:scaleX(0);transition:transform 0.4s}
+.pricing-card:hover{border-color:rgba(59,130,246,0.5);transform:translateY(-8px);box-shadow:0 25px 80px rgba(0,0,0,0.3)}
+.pricing-card:hover::before{transform:scaleX(1)}
+.pricing-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(59,130,246,0.1),var(--card2))}
+.pricing-card.featured::before{transform:scaleX(1);background:var(--accent)}
+.pricing-card.featured::after{content:'Most Popular';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:0.4rem 1.25rem;border-radius:100px;font-size:0.8rem;font-weight:600;box-shadow:0 4px 15px rgba(59,130,246,0.4)}
+.pricing-material{font-size:0.8rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem}
+.pricing-card h3{font-size:1.5rem;margin-bottom:1.5rem}
+.pricing-price{margin-bottom:0.5rem}
+.pricing-price .amount{font-size:3.5rem;font-weight:800;letter-spacing:-0.02em}
+.pricing-price .period{color:var(--text2);font-size:1rem}
+.price-note{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;min-height:1.5rem}
+.card-price-badge{display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(90deg,rgba(59,130,246,0.15),rgba(59,130,246,0.05));border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1.5rem;font-size:0.9rem;width:100%;justify-content:center}
+.card-price-badge .card-label{color:var(--text2)}
+.card-price-badge .card-price{color:var(--accent);font-weight:600}
+.card-price-badge .card-original{color:var(--muted);text-decoration:line-through;margin-right:0.25rem}
+.pricing-features{list-style:none;margin-bottom:2rem}
+.pricing-features li{padding:0.6rem 0;color:var(--text2);display:flex;align-items:center;gap:0.75rem;font-size:0.95rem}
+.pricing-features li::before{content:'';width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.pricing-note{font-size:0.9rem;color:var(--muted);margin-top:3rem;text-align:center;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* Comparison */
+.comparison{max-width:900px;margin:4rem auto 0;position:relative}
+.comparison h3{text-align:center;margin-bottom:2rem;font-size:1.5rem}
+.comparison-table{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.comparison-table::before{content:'';position:absolute;top:0;left:33.33%;width:33.33%;height:100%;background:linear-gradient(180deg,rgba(59,130,246,0.15),rgba(59,130,246,0.05));pointer-events:none}
+.comparison-table table{width:100%;border-collapse:collapse;position:relative;z-index:1}
+.comparison-table thead{background:linear-gradient(180deg,var(--card2),var(--card))}
+.comparison-table th{padding:1.25rem 1.5rem;text-align:center;font-weight:600;font-size:0.9rem;color:var(--text2)}
+.comparison-table th:first-child{text-align:left}
+.comparison-table th.tappr-col{color:var(--text);background:rgba(59,130,246,0.2);position:relative}
+.comparison-table th.tappr-col::before{content:'Best Value';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:0.2rem 0.75rem;border-radius:100px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em}
+.comparison-table td{padding:1rem 1.5rem;border-top:1px solid var(--border);font-size:0.95rem;text-align:center}
+.comparison-table td:first-child{color:var(--text2);text-align:left;font-weight:500}
+.comparison-table td.tappr-col{background:rgba(59,130,246,0.08);font-weight:600}
+.comparison-table td.highlight{color:var(--green)}
+.comparison-table tbody tr{transition:all 0.2s}
+.comparison-table tbody tr:hover{background:rgba(255,255,255,0.03)}
+
+/* FAQ */
+.faq-section{padding:8rem 2rem;position:relative;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.faq-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:80px;background:linear-gradient(180deg,var(--accent),transparent)}
+.faq{max-width:700px;margin:0 auto;position:relative;z-index:1}
+.faq-item{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;margin-bottom:1rem;overflow:hidden;transition:all 0.3s;position:relative}
+.faq-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transition:transform 0.3s;border-radius:3px 0 0 3px}
+.faq-item:hover{border-color:rgba(59,130,246,0.3);box-shadow:0 10px 40px rgba(0,0,0,0.2)}
+.faq-item:hover::before{transform:scaleY(1)}
+.faq-item.open::before{transform:scaleY(1)}
+.faq-q{padding:1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1.05rem;transition:color 0.2s}
+.faq-q:hover{color:var(--accent)}
+.faq-q span{transition:transform 0.3s;color:var(--accent);font-size:1.5rem;line-height:1}
+.faq-item.open .faq-q span{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s,padding 0.3s}
+.faq-item.open .faq-a{max-height:500px;padding:0 1.5rem 1.5rem}
+.faq-a p{color:var(--text2);line-height:1.7}
+
+/* CTA */
+.cta{text-align:center;padding:10rem 2rem;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.cta-bg::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:conic-gradient(from 0deg at 50% 50%,transparent,rgba(59,130,246,0.15),transparent,rgba(168,85,247,0.1),transparent);animation:rotate 30s linear infinite;border-radius:50%}
+.cta-bg::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,0.25),transparent 60%);pointer-events:none}
+@keyframes rotate{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.cta-content{position:relative;z-index:1}
+.cta h2{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;margin-bottom:1rem;letter-spacing:-0.02em}
+.cta h2 span{background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta p{color:var(--text2);font-size:1.2rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
+.cta .btn-primary{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 4px 15px rgba(59,130,246,0.3)}50%{box-shadow:0 4px 30px rgba(59,130,246,0.5),0 0 60px rgba(59,130,246,0.3)}}
+
+/* Footer */
+footer{padding:4rem 2rem 2rem;border-top:1px solid var(--border);position:relative;z-index:1}
+.footer-content{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
+@media(max-width:768px){.footer-content{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:500px){.footer-content{grid-template-columns:1fr}}
+.footer-brand .logo{margin-bottom:1rem;display:inline-block}
+.footer-brand p{color:var(--muted);font-size:0.9rem;max-width:250px}
+.footer-links h4{font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;color:var(--accent)}
+.footer-links a{display:block;color:var(--muted);font-size:0.9rem;padding:0.4rem 0;transition:color 0.2s}
+.footer-links a:hover{color:var(--text)}
+.footer-bottom{max-width:1100px;margin:3rem auto 0;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted);font-size:0.85rem}
+@media(max-width:500px){.footer-bottom{flex-direction:column;gap:0.5rem;text-align:center}}
+</style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-content">
+        <a href="/" class="logo">Tap<span>pr</span></a>
+        <button class="mobile-toggle" onclick="toggleMobileNav()">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="#how-it-works" onclick="closeMobileNav()">How It Works</a>
+            <a href="#features" onclick="closeMobileNav()">Features</a>
+            <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
+            <a href="/blog/">Blog</a>
+            <a href="https://app.tappr.one" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="hero-content">
+        <div class="badge">No app needed. Works instantly.</div>
+        <h1>One Tap.<br><span>Every Connection.</span></h1>
+        <p>NFC business cards that share your contact info instantly. Tap, connect, done. Update anytime. No reprinting.</p>
+        <div class="hero-buttons">
+            <a href="https://app.tappr.one" class="btn btn-primary btn-lg">Get Your Card</a>
+            <a href="#how-it-works" class="btn btn-secondary btn-lg">See How It Works</a>
+        </div>
+    </div>
+</section>
+
+<div class="wave-divider">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="var(--bg2)">
+        <path d="M0,50 C360,100 1080,0 1440,50 L1440,100 L0,100 Z"/>
+    </svg>
+</div>
+
+<section class="demo-section">
+    <div class="demo-container">
+        <div class="demo-text">
+            <h2>See It In Action</h2>
+            <p>When someone taps your card, your profile opens instantly in their browser. Clean, professional, and always up to date.</p>
+            <div class="demo-features">
+                <div class="demo-feature">
+                    <span class="demo-feature-check">✓</span>
+                    <span>Opens in under 1 second</span>
+                </div>
+                <div class="demo-feature">
+                    <span class="demo-feature-check">✓</span>
+                    <span>Works on any smartphone</span>
+                </div>
+                <div class="demo-feature">
+                    <span class="demo-feature-check">✓</span>
+                    <span>One tap to save contact</span>
+                </div>
+            </div>
+            <a href="https://app.tappr.one" class="btn btn-primary">Create Your Profile</a>
+        </div>
+        <div class="phone-mockup">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="profile-header">
+                        <div class="profile-avatar">AC</div>
+                        <h3>Alex Chen</h3>
+                        <p>Product Designer at TechCorp</p>
+                    </div>
+                    <div class="profile-links">
+                        <a href="#" class="profile-link">
+                            <div class="profile-link-icon" style="background:rgba(0,255,136,0.15);color:#00ff88">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <span>+1 (555) 123-4567</span>
+                        </a>
+                        <a href="#" class="profile-link">
+                            <div class="profile-link-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <span>alex@techcorp.com</span>
+                        </a>
+                        <a href="#" class="profile-link">
+                            <div class="profile-link-icon" style="background:rgba(59,130,246,0.15);color:#0077b5">in</div>
+                            <span>LinkedIn Profile</span>
+                        </a>
+                        <a href="#" class="profile-link">
+                            <div class="profile-link-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                            </div>
+                            <span>Book a Meeting</span>
+                        </a>
+                    </div>
+                    <button class="save-contact-btn">Save Contact</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="wave-divider flip">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="var(--bg2)">
+        <path d="M0,50 C360,0 1080,100 1440,50 L1440,100 L0,100 Z"/>
+    </svg>
+</div>
+
+<section class="how-it-works" id="how-it-works">
+    <div class="blob blob-3"></div>
+    <div class="section-header">
+        <h2>How It Works</h2>
+        <p>Get set up in minutes. Start networking smarter.</p>
+    </div>
+    <div class="timeline">
+        <div class="timeline-step">
+            <div class="timeline-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>Create Your Profile</h3>
+            <p>Add your contact info, photo, and links. Connect your LinkedIn, calendar, portfolio.</p>
+        </div>
+        <div class="timeline-step">
+            <div class="timeline-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 12h.01"/></svg>
+            </div>
+            <h3>Choose Your Card</h3>
+            <p>Pick PVC, wood, or metal. We program your NFC chip and ship within 3-5 days.</p>
+        </div>
+        <div class="timeline-step">
+            <div class="timeline-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+            </div>
+            <h3>Tap and Share</h3>
+            <p>Hold your card to any smartphone. Your profile opens instantly. Done.</p>
+        </div>
+    </div>
+</section>
+
+<div class="wave-divider">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="var(--bg2)">
+        <path d="M0,40 C480,100 960,0 1440,60 L1440,100 L0,100 Z"/>
+    </svg>
+</div>
+
+<section class="features-section" id="features">
+    <div class="section-header">
+        <h2>Everything You Need</h2>
+        <p>Built for professionals who network seriously.</p>
+    </div>
+    <div class="bento-grid">
+        <div class="bento-card large">
+            <div class="bento-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3>Instant Sharing</h3>
+            <p>One tap opens your profile. No app downloads, no QR scanning, no typing URLs. Works with iPhone XR/XS+ and most Android phones from the last 5 years.</p>
+        </div>
+        <div class="bento-card">
+            <div class="bento-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+            </div>
+            <h3>Always Updated</h3>
+            <p>Change jobs? New number? Update once, every card updates instantly.</p>
+        </div>
+        <div class="bento-card">
+            <div class="bento-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Lead Capture</h3>
+            <p>See who viewed your profile. Collect their info when they save yours.</p>
+        </div>
+        <div class="bento-card">
+            <div class="bento-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </div>
+            <h3>Unlimited Links</h3>
+            <p>Add LinkedIn, calendar, portfolio, social. Share whatever you want.</p>
+        </div>
+        <div class="bento-card large">
+            <div class="bento-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="19" cy="17" r="2"/><circle cx="6" cy="12" r="3"/></svg>
+            </div>
+            <h3>Custom Branding</h3>
+            <p>Match your profile to your personal or company brand with custom colors and logo. Stand out from generic NFC cards with a profile that looks like you.</p>
+        </div>
+    </div>
+</section>
+
+<div class="wave-divider flip">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="var(--bg2)">
+        <path d="M0,60 C480,0 960,100 1440,40 L1440,100 L0,100 Z"/>
+    </svg>
+</div>
+
+<section class="personas-section" id="who">
+    <div class="blob blob-3"></div>
+    <div class="section-header">
+        <h2>Built For People Who Network</h2>
+        <p>Whether you're closing deals or making connections, Tappr makes every introduction count.</p>
+    </div>
+    <div class="personas-scroll">
+        <div class="persona-card">
+            <div class="persona-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Sales Professionals</h3>
+            <p>Hand out your card at trade shows, conferences, and client meetings. Capture leads automatically and never run out of cards again.</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h3>Real Estate Agents</h3>
+            <p>Share your contact at open houses and showings. Update your listings link anytime without reprinting.</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+            </div>
+            <h3>Consultants</h3>
+            <p>Make a professional impression with a card that links to your portfolio, calendar, and LinkedIn in one tap.</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+            </div>
+            <h3>Founders & Executives</h3>
+            <p>Network at investor meetings and industry events. The metal card makes a statement before you say a word.</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            </div>
+            <h3>Creatives</h3>
+            <p>Showcase your work instantly. Link to your portfolio, Behance, Dribbble, or Instagram from one card.</p>
+        </div>
+        <div class="persona-card">
+            <div class="persona-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3>Healthcare</h3>
+            <p>Share your practice info, booking link, and credentials. Patients save your contact with one tap.</p>
+        </div>
+    </div>
+</section>
+
+<div class="wave-divider">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="var(--bg2)">
+        <path d="M0,50 C360,100 1080,0 1440,50 L1440,100 L0,100 Z"/>
+    </svg>
+</div>
+
+<section class="pricing-section" id="pricing">
+    <div class="section-header">
+        <h2>Simple Pricing</h2>
+        <p>No hidden fees. No lock-in. Cards work forever.</p>
+    </div>
+    
+    <div class="pricing-toggle">
+        <span class="toggle-label active" data-plan="subscription" onclick="setPlan('subscription')">With Subscription</span>
+        <button class="toggle-switch" id="planToggle" onclick="togglePlan()">
+            <span class="toggle-slider"></span>
+        </button>
+        <span class="toggle-label" data-plan="free" onclick="setPlan('free')">Card Only</span>
+    </div>
+    
+    <p class="pricing-subtitle subscription-text"><span>$3/month</span> or <span>$25/year</span> unlocks premium features + discounted cards</p>
+    <p class="pricing-subtitle free-text" style="display:none">One-time purchase. Basic features. Works forever.</p>
+    
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <div class="pricing-material">PVC Plastic</div>
+            <h3>Standard</h3>
+            <div class="pricing-price">
+                <span class="amount sub-price">Free</span>
+                <span class="amount free-price" style="display:none">$10</span>
+            </div>
+            <p class="price-note sub-note">Included with subscription</p>
+            <p class="price-note free-note" style="display:none">One-time purchase</p>
+            <div class="card-price-badge">
+                <span class="card-label">Card cost:</span>
+                <span class="card-price sub-card">$0</span>
+                <span class="card-price free-card" style="display:none">$10</span>
+            </div>
+            <ul class="pricing-features">
+                <li>Durable PVC plastic</li>
+                <li class="sub-feature">Unlimited links</li>
+                <li class="sub-feature">Analytics dashboard</li>
+                <li class="sub-feature">Lead capture</li>
+                <li class="sub-feature">Custom branding</li>
+                <li class="free-feature" style="display:none">Name, phone, email</li>
+                <li class="free-feature" style="display:none">1 link</li>
+            </ul>
+            <a href="https://app.tappr.one" class="btn btn-primary" style="width:100%">Get Started</a>
+        </div>
+        <div class="pricing-card featured">
+            <div class="pricing-material">Wood / Bamboo</div>
+            <h3>Premium</h3>
+            <div class="pricing-price">
+                <span class="amount sub-price">$10</span>
+                <span class="amount free-price" style="display:none">$20</span>
+            </div>
+            <p class="price-note sub-note">50% off with subscription</p>
+            <p class="price-note free-note" style="display:none">One-time purchase</p>
+            <div class="card-price-badge">
+                <span class="card-label">Card cost:</span>
+                <span class="card-original sub-card">$20</span>
+                <span class="card-price sub-card">$10</span>
+                <span class="card-price free-card" style="display:none">$20</span>
+            </div>
+            <ul class="pricing-features">
+                <li>Natural wood finish</li>
+                <li class="sub-feature">Unlimited links</li>
+                <li class="sub-feature">Analytics dashboard</li>
+                <li class="sub-feature">Lead capture</li>
+                <li class="sub-feature">Custom branding</li>
+                <li class="free-feature" style="display:none">Name, phone, email</li>
+                <li class="free-feature" style="display:none">1 link</li>
+            </ul>
+            <a href="https://app.tappr.one" class="btn btn-primary" style="width:100%">Get Premium</a>
+        </div>
+        <div class="pricing-card">
+            <div class="pricing-material">Metal Aluminum</div>
+            <h3>Executive</h3>
+            <div class="pricing-price">
+                <span class="amount sub-price">$20</span>
+                <span class="amount free-price" style="display:none">$40</span>
+            </div>
+            <p class="price-note sub-note">50% off with subscription</p>
+            <p class="price-note free-note" style="display:none">One-time purchase</p>
+            <div class="card-price-badge">
+                <span class="card-label">Card cost:</span>
+                <span class="card-original sub-card">$40</span>
+                <span class="card-price sub-card">$20</span>
+                <span class="card-price free-card" style="display:none">$40</span>
+            </div>
+            <ul class="pricing-features">
+                <li>Brushed aluminum</li>
+                <li class="sub-feature">Unlimited links</li>
+                <li class="sub-feature">Analytics dashboard</li>
+                <li class="sub-feature">Lead capture</li>
+                <li class="sub-feature">Custom branding</li>
+                <li class="free-feature" style="display:none">Name, phone, email</li>
+                <li class="free-feature" style="display:none">1 link</li>
+            </ul>
+            <a href="https://app.tappr.one" class="btn btn-primary" style="width:100%">Get Executive</a>
+        </div>
+    </div>
+    <p class="pricing-note">No contracts on monthly plans. Cancel anytime. Cards work forever with basic features even if you cancel.</p>
+    
+    <div class="comparison">
+        <h3>How We Compare</h3>
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="tappr-col">Tappr</th>
+                        <th>Popl</th>
+                        <th>Linq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>First year cost</td>
+                        <td class="tappr-col highlight">$25-45</td>
+                        <td>$90-180</td>
+                        <td>$75-150</td>
+                    </tr>
+                    <tr>
+                        <td>Card included</td>
+                        <td class="tappr-col highlight">Yes, free</td>
+                        <td>Extra $20-50</td>
+                        <td>Extra $25-60</td>
+                    </tr>
+                    <tr>
+                        <td>Works without subscription</td>
+                        <td class="tappr-col highlight">Yes</td>
+                        <td>Limited</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Lead capture</td>
+                        <td class="tappr-col highlight">Included</td>
+                        <td>Pro plan</td>
+                        <td>Pro plan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section" id="faq">
+    <div class="section-header">
+        <h2>Questions?</h2>
+        <p>Everything you need to know about Tappr.</p>
+    </div>
+    <div class="faq">
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">How does Tappr work?<span>+</span></div>
+            <div class="faq-a"><p>Your Tappr card has an NFC chip inside. When you tap it against someone's phone, it opens your profile in their browser instantly. No app needed on either end.</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">Do I need to install an app?<span>+</span></div>
+            <div class="faq-a"><p>Nope. The person you're sharing with doesn't need an app either. Your profile opens directly in their web browser.</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">What if I change jobs or phone numbers?<span>+</span></div>
+            <div class="faq-a"><p>Just update your profile at app.tappr.one. Changes appear instantly. No reprinting, no new card needed.</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">Which phones work with NFC?<span>+</span></div>
+            <div class="faq-a"><p>All iPhones from XR/XS and newer, plus most Android phones from the last 5 years. That covers about 90% of smartphones.</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">What's the difference between subscription and card only?<span>+</span></div>
+            <div class="faq-a"><p>With a subscription ($3/mo or $25/year), you get premium features like unlimited links, analytics, lead capture, and custom branding, plus 50% off wood and metal cards. Card only gives you basic features (name, phone, email, 1 link) with no monthly cost.</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">How is this different from Popl or Linq?<span>+</span></div>
+            <div class="faq-a"><p>Way cheaper. Popl charges $90-180 for the first year. Tappr is $25-45/year for premium with a free card included. And our basic cards work forever even without a subscription.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+        <h2>Ready to <span>Tap In</span>?</h2>
+        <p>Get your card today. No contracts. Ships in 3-5 days.</p>
+        <a href="https://app.tappr.one" class="btn btn-primary btn-lg">Get Your Tappr Card</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-brand">
+            <div class="logo">Tap<span>pr</span></div>
+            <p>NFC business cards for the modern professional. One tap, every connection.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Product</h4>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-links">
+            <h4>Resources</h4>
+            <a href="/blog/">Blog</a>
+            <a href="/contact.html">Contact</a>
+            <a href="https://app.tappr.one">Login</a>
+        </div>
+        <div class="footer-links">
+            <h4>Legal</h4>
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms of Service</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 Tappr. All rights reserved.</span>
+        <span>Made for networkers everywhere</span>
+    </div>
+</footer>
+
+<script>
+function toggleMobileNav(){document.getElementById('navLinks').classList.toggle('open')}
+function closeMobileNav(){document.getElementById('navLinks').classList.remove('open')}
+function toggleFaq(el){el.parentElement.classList.toggle('open')}
+
+function togglePlan(){
+    const toggle = document.getElementById('planToggle');
+    const isFree = toggle.classList.toggle('free');
+    updatePlanDisplay(isFree);
+}
+
+function setPlan(plan){
+    const toggle = document.getElementById('planToggle');
+    const isFree = plan === 'free';
+    toggle.classList.toggle('free', isFree);
+    updatePlanDisplay(isFree);
+}
+
+function updatePlanDisplay(isFree){
+    document.querySelectorAll('.sub-price, .sub-note, .sub-card, .sub-feature, .subscription-text').forEach(el => el.style.display = isFree ? 'none' : '');
+    document.querySelectorAll('.free-price, .free-note, .free-card, .free-feature, .free-text').forEach(el => el.style.display = isFree ? '' : 'none');
+    
+    document.querySelectorAll('.toggle-label').forEach(label => {
+        const plan = label.dataset.plan;
+        if((plan === 'free' && isFree) || (plan === 'subscription' && !isFree)){
+            label.classList.add('active');
+        } else {
+            label.classList.remove('active');
+        }
+    });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+        e.preventDefault();
+        const target=document.querySelector(a.getAttribute('href'));
+        if(target)target.scrollIntoView({behavior:'smooth'});
+    });
+});
+</script>
+</body>
+</html>
