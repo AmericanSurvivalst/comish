@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tappr | One Tap. Every Connection.</title>
+    <meta name="description" content="NFC business cards that share your contact info with one tap. No app needed. Update anytime. Starting at $3/month.">
+    <link rel="canonical" href="https://tappr.one/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tappr.one/">
+    <meta property="og:title" content="Tappr | One Tap. Every Connection.">
+    <meta property="og:description" content="NFC business cards that share your contact info with one tap. No app needed.">
+    <meta property="og:image" content="https://tappr.one/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --bg: #04060b;
+    --bg2: #080c14;
+    --bg3: #0c1018;
+    --surface: #111827;
+    --surface2: #1f2937;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f9fafb;
+    --text2: #9ca3af;
+    --muted: #6b7280;
+    --blue: #3b82f6;
+    --blue2: #60a5fa;
+    --blue3: #93c5fd;
+    --purple: #8b5cf6;
+    --green: #10b981;
+    --gold: #f59e0b;
+}
+html { scroll-behavior: smooth; }
+body { 
+    font-family: 'Inter', -apple-system, sans-serif; 
+    background: var(--bg); 
+    color: var(--text); 
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ============================================
+   NAVIGATION
+============================================ */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 2rem;
+    background: rgba(4,6,11,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.logo span { color: var(--blue2); }
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+.nav-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text2);
+    transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+    background: var(--blue);
+    color: white;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+}
+.nav-cta:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+}
+.mobile-menu { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+@media (max-width: 768px) {
+    .nav-links { 
+        position: fixed; top: 65px; left: 0; right: 0; 
+        background: var(--bg); 
+        flex-direction: column; 
+        padding: 2rem; 
+        gap: 1.5rem;
+        transform: translateY(-200%);
+        transition: transform 0.3s;
+        border-bottom: 1px solid var(--border);
+    }
+    .nav-links.open { transform: translateY(0); }
+    .mobile-menu { display: block; }
+}
+
+/* ============================================
+   BUTTONS
+============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+.btn-primary {
+    background: linear-gradient(180deg, #4a90f7 0%, #3b82f6 50%, #2563eb 100%);
+    color: white;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        inset 0 -2px 0 rgba(0,0,0,0.15),
+        0 4px 20px rgba(59,130,246,0.4);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        inset 0 -2px 0 rgba(0,0,0,0.15),
+        0 8px 30px rgba(59,130,246,0.5);
+}
+.btn-secondary {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    border: 1px solid var(--border2);
+}
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+}
+.btn-large {
+    padding: 1.1rem 2.25rem;
+    font-size: 1.05rem;
+    border-radius: 12px;
+}
+
+/* ============================================
+   HERO SECTION
+============================================ */
+.hero {
+    min-height: 100vh;
+    padding: 10rem 2rem 6rem;
+    position: relative;
+    overflow: hidden;
+}
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(59,130,246,0.12), transparent),
+        radial-gradient(ellipse 50% 50% at 80% 50%, rgba(139,92,246,0.08), transparent);
+}
+.hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+}
+.hero-content { max-width: 540px; }
+@media (max-width: 960px) { .hero-content { max-width: 100%; margin: 0 auto; } }
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+}
+.hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.75rem, 6vw, 4.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+}
+.hero h1 .highlight {
+    background: linear-gradient(135deg, var(--blue2), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-desc {
+    font-size: 1.15rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+@media (max-width: 960px) { .hero-buttons { justify-content: center; } }
+
+.hero-proof {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+@media (max-width: 960px) { .hero-proof { justify-content: center; } }
+.proof-item {
+    display: flex;
+    flex-direction: column;
+}
+.proof-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.proof-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+/* HERO CARDS - Fanned horizontal layout */
+.hero-cards {
+    position: relative;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 960px) { .hero-cards { height: 350px; transform: scale(0.85); } }
+
+.card-stack {
+    position: relative;
+    width: 360px;
+    height: 220px;
+    perspective: 1000px;
+}
+.nfc-card {
+    position: absolute;
+    width: 340px;
+    height: 200px;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    transform-style: preserve-3d;
+}
+.nfc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    pointer-events: none;
+}
+
+/* Card positions - fanned out */
+.card-metal {
+    background: linear-gradient(145deg, #6b7280 0%, #4b5563 50%, #374151 100%);
+    z-index: 1;
+    transform: translateX(-70px) rotate(-8deg);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+}
+.card-metal::before {
+    background: linear-gradient(125deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    animation: metal-shine 4s ease-in-out infinite;
+}
+@keyframes metal-shine { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+.card-wood {
+    background: linear-gradient(145deg, #92400e 0%, #78350f 50%, #451a03 100%);
+    z-index: 2;
+    transform: translateX(0) rotate(0deg);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+.card-wood::before {
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+}
+
+.card-pvc {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    z-index: 3;
+    transform: translateX(70px) rotate(8deg);
+    box-shadow: 0 35px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+/* Hover states */
+.card-stack:hover .card-metal { transform: translateX(-100px) rotate(-12deg) translateY(-10px); }
+.card-stack:hover .card-wood { transform: translateX(0) rotate(0deg) translateY(-20px); z-index: 4; }
+.card-stack:hover .card-pvc { transform: translateX(100px) rotate(12deg) translateY(-10px); }
+
+/* Card content */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.card-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.card-brand span { color: var(--blue2); }
+
+.card-chip {
+    width: 45px;
+    height: 34px;
+    background: linear-gradient(145deg, #fbbf24 0%, #d97706 100%);
+    border-radius: 6px;
+    position: relative;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        0 2px 4px rgba(0,0,0,0.3);
+}
+.card-chip::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 20px;
+    border: 1.5px solid rgba(0,0,0,0.15);
+    border-radius: 3px;
+}
+.card-chip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    right: 4px;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.card-info h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.card-info p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 0.15rem;
+}
+.card-nfc {
+    opacity: 0.5;
+}
+.card-nfc svg { width: 28px; height: 28px; }
+
+/* Tap animation */
+.tap-zone {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+.tap-finger {
+    width: 50px;
+    height: 50px;
+    color: var(--blue2);
+    animation: tap-motion 2.5s ease-in-out infinite;
+}
+@keyframes tap-motion {
+    0%, 100% { transform: translateX(10px) rotate(-10deg); opacity: 0.7; }
+    50% { transform: translateX(-15px) rotate(0deg); opacity: 1; }
+}
+.tap-ripples {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+.tap-ripples span {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple-out 2.5s ease-out infinite;
+}
+.tap-ripples span:nth-child(2) { animation-delay: 0.4s; }
+.tap-ripples span:nth-child(3) { animation-delay: 0.8s; }
+@keyframes ripple-out {
+    0% { width: 30px; height: 30px; opacity: 1; }
+    100% { width: 120px; height: 120px; opacity: 0; }
+}
+
+/* ============================================
+   HOW IT WORKS - Simple inline
+============================================ */
+.how-section {
+    padding: 6rem 2rem;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+.how-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.how-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+.section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--blue);
+    margin-bottom: 0.75rem;
+}
+.how-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+}
+.steps-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+}
+.steps-row::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--border), var(--blue), var(--border));
+    z-index: 0;
+}
+@media (max-width: 700px) { 
+    .steps-row { grid-template-columns: 1fr; gap: 3rem; }
+    .steps-row::before { display: none; }
+}
+.step {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+.step-number {
+    width: 56px;
+    height: 56px;
+    background: var(--bg);
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--blue2);
+}
+.step h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.step p {
+    font-size: 0.9rem;
+    color: var(--text2);
+    max-width: 260px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   FEATURES - Hero feature + supporting grid
+============================================ */
+.features-section {
+    padding: 7rem 2rem;
+}
+.features-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+.features-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+.features-header p {
+    font-size: 1.1rem;
+    color: var(--text2);
+}
+
+/* Hero feature - full width */
+.feature-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.05));
+    border: 1px solid rgba(59,130,246,0.15);
+    border-radius: 24px;
+    margin-bottom: 2rem;
+}
+@media (max-width: 800px) { .feature-hero { grid-template-columns: 1fr; text-align: center; } }
+.feature-hero-content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.feature-hero-content p {
+    font-size: 1.05rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+.feature-hero-stats {
+    display: flex;
+    gap: 2rem;
+}
+@media (max-width: 800px) { .feature-hero-stats { justify-content: center; } }
+.fh-stat {
+    text-align: left;
+}
+.fh-stat strong {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--blue2);
+}
+.fh-stat span {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+.feature-hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.speed-graphic {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: conic-gradient(var(--blue) 0deg, var(--blue) 320deg, var(--surface) 320deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.speed-graphic::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    background: var(--bg);
+    border-radius: 50%;
+}
+.speed-graphic span {
+    position: relative;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+.speed-graphic span small {
+    font-size: 1rem;
+    color: var(--muted);
+}
+
+/* Supporting features grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+@media (max-width: 800px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .features-grid { grid-template-columns: 1fr; } }
+.feature-card {
+    padding: 1.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: all 0.3s;
+}
+.feature-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(59,130,246,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--blue2);
+}
+.feature-icon svg { width: 24px; height: 24px; }
+.feature-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+.feature-card p {
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.6;
+}
+
+/* ============================================
+   DEMO / PHONE SECTION
+============================================ */
+.demo-section {
+    padding: 7rem 2rem;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+}
+.demo-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.1), transparent 60%);
+    pointer-events: none;
+}
+.demo-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 900px) { 
+    .demo-inner { grid-template-columns: 1fr; gap: 3rem; }
+}
+.demo-phone {
+    display: flex;
+    justify-content: center;
+}
+.phone-frame {
+    width: 280px;
+    background: linear-gradient(180deg, #1f2937, #111827);
+    border-radius: 40px;
+    padding: 10px;
+    box-shadow: 
+        0 50px 100px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+.phone-speaker {
+    width: 80px;
+    height: 6px;
+    background: #374151;
+    border-radius: 3px;
+    margin: 8px auto 12px;
+}
+.phone-screen {
+    background: #0a0a0f;
+    border-radius: 32px;
+    overflow: hidden;
+}
+.screen-header {
+    height: 70px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+}
+.screen-profile {
+    text-align: center;
+    padding: 0 1.25rem;
+    margin-top: -35px;
+}
+.screen-avatar {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 0.5rem;
+    border: 3px solid #0a0a0f;
+}
+.screen-profile h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.screen-profile p {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-bottom: 1rem;
+}
+.screen-links {
+    padding: 0 1rem 1rem;
+}
+.screen-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+}
+.screen-link-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.screen-save {
+    margin: 0.75rem 1rem 1rem;
+    padding: 0.75rem;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: calc(100% - 2rem);
+}
+
+.demo-content h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+.demo-content > p {
+    font-size: 1.05rem;
+    color: var(--text2);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+.demo-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.demo-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.demo-point-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(59,130,246,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue2);
+    flex-shrink: 0;
+}
+.demo-point-icon svg { width: 20px; height: 20px; }
+.demo-point h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+.demo-point p {
+    font-size: 0.85rem;
+    color: var(--text2);
+}
+
+/* ============================================
+   USE CASES - Static grid, no marquee
+============================================ */
+.usecases-section {
+    padding: 7rem 2rem;
+}
+.usecases-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.usecases-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.usecases-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+}
+.usecases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+@media (max-width: 700px) { .usecases-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .usecases-grid { grid-template-columns: 1fr; } }
+.usecase {
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: all 0.3s;
+}
+.usecase:hover {
+    border-color: var(--blue);
+    transform: translateY(-4px);
+}
+.usecase-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(59,130,246,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--blue2);
+}
+.usecase-icon svg { width: 22px; height: 22px; }
+.usecase h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+.usecase p {
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.5;
+}
+
+/* ============================================
+   PRICING
+============================================ */
+.pricing-section {
+    padding: 7rem 2rem;
+    background: var(--bg2);
+}
+.pricing-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.pricing-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.pricing-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.pricing-header p {
+    font-size: 1.05rem;
+    color: var(--text2);
+}
+
+.pricing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+.toggle-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+.toggle-label.active {
+    color: var(--text);
+    background: rgba(59,130,246,0.1);
+}
+.toggle-switch {
+    width: 56px;
+    height: 30px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+}
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: var(--blue);
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+.toggle-switch.free::after {
+    transform: translateX(26px);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+@media (max-width: 800px) { .pricing-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; } }
+
+.pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s;
+}
+.pricing-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-6px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+.pricing-card.featured {
+    border-color: var(--blue);
+    background: linear-gradient(180deg, rgba(59,130,246,0.08), var(--surface));
+}
+.pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--blue);
+    color: white;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+.pricing-material {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.material-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+}
+.material-swatch.pvc { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid var(--border); }
+.material-swatch.wood { background: linear-gradient(135deg, #92400e, #451a03); }
+.material-swatch.metal { background: linear-gradient(135deg, #6b7280, #374151); }
+.pricing-material span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--blue2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.pricing-card h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.pricing-price {
+    margin-bottom: 0.5rem;
+}
+.price-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+}
+.price-value.free-text { font-size: 2.5rem; }
+.pricing-note {
+    font-size: 0.85rem;
+    color: var(--text2);
+    margin-bottom: 1.5rem;
+    min-height: 20px;
+}
+.pricing-features {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+.pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text2);
+}
+.pricing-features li svg {
+    width: 18px;
+    height: 18px;
+    color: var(--green);
+    flex-shrink: 0;
+}
+.pricing-card .btn { width: 100%; }
+
+/* ============================================
+   COMPARISON
+============================================ */
+.comparison-section {
+    padding: 5rem 2rem;
+}
+.comparison-inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.comparison-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.comparison-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+.comparison-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem 1.25rem;
+    text-align: center;
+}
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+    text-align: left;
+}
+.comparison-table th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--border);
+}
+.comparison-table th.hl { color: var(--blue2); }
+.comparison-table td {
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+}
+.comparison-table td.hl {
+    color: var(--blue2);
+    font-weight: 600;
+    background: rgba(59,130,246,0.05);
+}
+.comparison-table tr:last-child td { border-bottom: none; }
+
+/* ============================================
+   FAQ
+============================================ */
+.faq-section {
+    padding: 6rem 2rem;
+    background: var(--bg2);
+}
+.faq-inner {
+    max-width: 700px;
+    margin: 0 auto;
+}
+.faq-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.faq-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+}
+.faq-item {
+    border-bottom: 1px solid var(--border);
+}
+.faq-q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.faq-q:hover { color: var(--blue2); }
+.faq-q svg {
+    width: 20px;
+    height: 20px;
+    color: var(--blue);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+}
+.faq-item.open .faq-q svg { transform: rotate(45deg); }
+.faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.faq-item.open .faq-a { max-height: 200px; }
+.faq-a p {
+    padding-bottom: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text2);
+    line-height: 1.7;
+}
+
+/* ============================================
+   CTA
+============================================ */
+.cta-section {
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.15), transparent 60%);
+    pointer-events: none;
+}
+.cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.cta-inner h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.cta-inner p {
+    font-size: 1.15rem;
+    color: var(--text2);
+    margin-bottom: 2rem;
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+footer {
+    padding: 4rem 2rem 2rem;
+    border-top: 1px solid var(--border);
+}
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+}
+@media (max-width: 700px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+@media (max-width: 450px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-brand p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    line-height: 1.6;
+    max-width: 280px;
+}
+.footer-col h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text2);
+    margin-bottom: 1rem;
+}
+.footer-col a {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--muted);
+    padding: 0.3rem 0;
+    transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--text); }
+.footer-bottom {
+    max-width: 1100px;
+    margin: 3rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+@media (max-width: 450px) { .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; } }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="logo">tap<span>pr</span></a>
+        <button class="mobile-menu" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="#how">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="/blog/">Blog</a>
+            <a href="https://app.tappr.one" class="nav-cta">Get Started</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-eyebrow">No app required</div>
+            <h1>One Tap.<br><span class="highlight">Infinite Connections.</span></h1>
+            <p class="hero-desc">NFC business cards that share your contact info instantly. Tap any phone, your profile opens. Update anytime—every card updates with it.</p>
+            <div class="hero-buttons">
+                <a href="https://app.tappr.one" class="btn btn-primary btn-large">Get Your Card</a>
+                <a href="#how" class="btn btn-secondary btn-large">See How It Works</a>
+            </div>
+            <div class="hero-proof">
+                <div class="proof-item">
+                    <span class="proof-value">10K+</span>
+                    <span class="proof-label">Cards shipped</span>
+                </div>
+                <div class="proof-item">
+                    <span class="proof-value">500K+</span>
+                    <span class="proof-label">Taps made</span>
+                </div>
+                <div class="proof-item">
+                    <span class="proof-value">4.9★</span>
+                    <span class="proof-label">Rating</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-cards">
+            <div class="card-stack">
+                <div class="nfc-card card-metal">
+                    <div class="card-header">
+                        <div class="card-brand">tap<span>pr</span></div>
+                        <div class="card-chip"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-info">
+                            <h3>Metal</h3>
+                            <p>Executive Card</p>
+                        </div>
+                        <div class="card-nfc">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h2m16 0h2M6 12a6 6 0 0 1 12 0M9 12a3 3 0 0 1 6 0"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="nfc-card card-wood">
+                    <div class="card-header">
+                        <div class="card-brand">tap<span>pr</span></div>
+                        <div class="card-chip"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-info">
+                            <h3>Wood</h3>
+                            <p>Premium Card</p>
+                        </div>
+                        <div class="card-nfc">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h2m16 0h2M6 12a6 6 0 0 1 12 0M9 12a3 3 0 0 1 6 0"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="nfc-card card-pvc">
+                    <div class="card-header">
+                        <div class="card-brand">tap<span>pr</span></div>
+                        <div class="card-chip"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-info">
+                            <h3>Your Name</h3>
+                            <p>Your Title</p>
+                        </div>
+                        <div class="card-nfc">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h2m16 0h2M6 12a6 6 0 0 1 12 0M9 12a3 3 0 0 1 6 0"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tap-zone">
+                <div class="tap-ripples"><span></span><span></span><span></span></div>
+                <svg class="tap-finger" viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.67-.73c-.31 0-.59.13-.79.35l-.79.85 4.94 4.94c.27.27.65.42 1.03.42h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+    <div class="how-inner">
+        <div class="how-header">
+            <div class="section-tag">How It Works</div>
+            <h2>Ready in 3 Steps</h2>
+        </div>
+        <div class="steps-row">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Create Profile</h3>
+                <p>Add your info, photo, and links. Takes 2 minutes.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Pick Your Card</h3>
+                <p>Choose PVC, wood, or metal. Ships in 3-5 days.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Tap & Share</h3>
+                <p>Hold to any phone. Profile opens instantly.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+    <div class="features-inner">
+        <div class="features-header">
+            <div class="section-tag">Features</div>
+            <h2>Everything You Need</h2>
+            <p>Built for professionals who take networking seriously.</p>
+        </div>
+        
+        <!-- Hero Feature -->
+        <div class="feature-hero">
+            <div class="feature-hero-content">
+                <h3>Instant NFC Sharing</h3>
+                <p>One tap opens your profile on their phone. No app downloads, no QR scanning, no typing URLs. Works with iPhone XR+ and most Androids from the last 5 years.</p>
+                <div class="feature-hero-stats">
+                    <div class="fh-stat">
+                        <strong>&lt;1s</strong>
+                        <span>Load time</span>
+                    </div>
+                    <div class="fh-stat">
+                        <strong>90%</strong>
+                        <span>Phone compatibility</span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-hero-visual">
+                <div class="speed-graphic">
+                    <span>&lt;1<small>s</small></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Supporting Features -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                </div>
+                <h4>Always Updated</h4>
+                <p>Change jobs? New number? Update once, all cards update instantly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h4>Lead Capture</h4>
+                <p>See who viewed your profile. Collect their info when they save yours.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                </div>
+                <h4>Unlimited Links</h4>
+                <p>LinkedIn, calendar, portfolio, social—add everything that matters.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                </div>
+                <h4>Analytics</h4>
+                <p>Track views, clicks, and saves. Know what's working.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </div>
+                <h4>Custom Branding</h4>
+                <p>Match colors to your personal or company brand.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <h4>Works Forever</h4>
+                <p>Cards work with basic features even without subscription.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section">
+    <div class="demo-inner">
+        <div class="demo-phone">
+            <div class="phone-frame">
+                <div class="phone-speaker"></div>
+                <div class="phone-screen">
+                    <div class="screen-header"></div>
+                    <div class="screen-profile">
+                        <div class="screen-avatar">AC</div>
+                        <h3>Alex Chen</h3>
+                        <p>Product Designer at TechCorp</p>
+                    </div>
+                    <div class="screen-links">
+                        <div class="screen-link">
+                            <div class="screen-link-icon" style="background:rgba(16,185,129,0.15);color:#10b981">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.33a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.74.34 1.52.57 2.33.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="screen-link">
+                            <div class="screen-link-icon" style="background:rgba(59,130,246,0.15);color:#60a5fa">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <span>alex@techcorp.com</span>
+                        </div>
+                        <div class="screen-link">
+                            <div class="screen-link-icon" style="background:rgba(0,119,181,0.15);color:#0077b5">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </div>
+                            <span>LinkedIn</span>
+                        </div>
+                        <div class="screen-link">
+                            <div class="screen-link-icon" style="background:rgba(139,92,246,0.15);color:#a78bfa">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                            </div>
+                            <span>Book a Meeting</span>
+                        </div>
+                    </div>
+                    <button class="screen-save">Save Contact</button>
+                </div>
+            </div>
+        </div>
+        <div class="demo-content">
+            <h2>Their Phone.<br>Your Profile.<br>One Tap.</h2>
+            <p>When you tap your card to any smartphone, your profile opens instantly in their browser. No app download on either end.</p>
+            <div class="demo-points">
+                <div class="demo-point">
+                    <div class="demo-point-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                        <h4>Under 1 Second</h4>
+                        <p>Profile loads instantly. No waiting around.</p>
+                    </div>
+                </div>
+                <div class="demo-point">
+                    <div class="demo-point-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    </div>
+                    <div>
+                        <h4>Works on Most Phones</h4>
+                        <p>iPhone XR+ and most Androids from the last 5 years.</p>
+                    </div>
+                </div>
+                <div class="demo-point">
+                    <div class="demo-point-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                    </div>
+                    <div>
+                        <h4>One-Tap Save</h4>
+                        <p>They tap save and you're in their contacts forever.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases-section">
+    <div class="usecases-inner">
+        <div class="usecases-header">
+            <div class="section-tag">Use Cases</div>
+            <h2>Built for Networkers</h2>
+        </div>
+        <div class="usecases-grid">
+            <div class="usecase">
+                <div class="usecase-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <h3>Sales</h3>
+                <p>Trade shows, meetings, events. Capture leads automatically.</p>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3>Real Estate</h3>
+                <p>Open houses made easy. Update listings without reprinting.</p>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+                </div>
+                <h3>Consultants</h3>
+                <p>Calendar, portfolio, LinkedIn—all in one tap.</p>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                </div>
+                <h3>Founders</h3>
+                <p>Metal card makes an impression at investor meetings.</p>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <h3>Creatives</h3>
+                <p>Showcase work instantly. Behance, Dribbble, Instagram.</p>
+            </div>
+            <div class="usecase">
+                <div class="usecase-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3>Healthcare</h3>
+                <p>Share practice info and booking link. Clean approach.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+    <div class="pricing-inner">
+        <div class="pricing-header">
+            <div class="section-tag">Pricing</div>
+            <h2>Simple, Honest Pricing</h2>
+            <p>Premium features with subscription. Or just buy a card.</p>
+        </div>
+        
+        <div class="pricing-toggle">
+            <span class="toggle-label active" data-plan="sub" onclick="setPlan('sub')">With Subscription</span>
+            <div class="toggle-switch" id="toggleSwitch" onclick="togglePlan()"></div>
+            <span class="toggle-label" data-plan="free" onclick="setPlan('free')">Card Only</span>
+        </div>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-material">
+                    <div class="material-swatch pvc"></div>
+                    <span>PVC Plastic</span>
+                </div>
+                <h3>Standard</h3>
+                <div class="pricing-price">
+                    <span class="price-value sub-price free-text">Free</span>
+                    <span class="price-value free-price" style="display:none">$10</span>
+                </div>
+                <p class="pricing-note sub-note">Included with subscription</p>
+                <p class="pricing-note free-note" style="display:none">One-time purchase</p>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Durable PVC card</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited links</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Analytics dashboard</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Lead capture</li>
+                    <li class="free-feat" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Name, phone, email</li>
+                    <li class="free-feat" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 link included</li>
+                </ul>
+                <a href="https://app.tappr.one" class="btn btn-secondary">Get Started</a>
+            </div>
+            
+            <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
+                <div class="pricing-material">
+                    <div class="material-swatch wood"></div>
+                    <span>Wood / Bamboo</span>
+                </div>
+                <h3>Premium</h3>
+                <div class="pricing-price">
+                    <span class="price-value sub-price">$10</span>
+                    <span class="price-value free-price" style="display:none">$20</span>
+                </div>
+                <p class="pricing-note sub-note">50% off with subscription</p>
+                <p class="pricing-note free-note" style="display:none">One-time purchase</p>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Natural wood finish</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited links</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Analytics dashboard</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Lead capture</li>
+                    <li class="free-feat" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Name, phone, email</li>
+                    <li class="free-feat" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 link included</li>
+                </ul>
+                <a href="https://app.tappr.one" class="btn btn-primary">Get Premium</a>
+            </div>
+            
+            <div class="pricing-card">
+                <div class="pricing-material">
+                    <div class="material-swatch metal"></div>
+                    <span>Metal Aluminum</span>
+                </div>
+                <h3>Executive</h3>
+                <div class="pricing-price">
+                    <span class="price-value sub-price">$20</span>
+                    <span class="price-value free-price" style="display:none">$40</span>
+                </div>
+                <p class="pricing-note sub-note">50% off with subscription</p>
+                <p class="pricing-note free-note" style="display:none">One-time purchase</p>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Brushed aluminum</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Unlimited links</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Analytics dashboard</li>
+                    <li class="sub-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Lead capture</li>
+                    <li class="free-feat" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Name, phone, email</li>
+                    <li class="free-feat" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 link included</li>
+                </ul>
+                <a href="https://app.tappr.one" class="btn btn-secondary">Get Executive</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="comparison-section">
+    <div class="comparison-inner">
+        <div class="comparison-header">
+            <div class="section-tag">Compare</div>
+            <h2>Why Tappr?</h2>
+        </div>
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="hl">Tappr</th>
+                        <th>Popl</th>
+                        <th>Linq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>First year cost</td>
+                        <td class="hl">$25–45</td>
+                        <td>$90–180</td>
+                        <td>$75–150</td>
+                    </tr>
+                    <tr>
+                        <td>Card included</td>
+                        <td class="hl">Yes, free</td>
+                        <td>Extra $20–50</td>
+                        <td>Extra $25–60</td>
+                    </tr>
+                    <tr>
+                        <td>Works without subscription</td>
+                        <td class="hl">Yes</td>
+                        <td>Limited</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Lead capture</td>
+                        <td class="hl">Included</td>
+                        <td>Pro plan</td>
+                        <td>Pro plan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+    <div class="faq-inner">
+        <div class="faq-header">
+            <div class="section-tag">FAQ</div>
+            <h2>Questions?</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    How does Tappr work?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                <div class="faq-a"><p>Your Tappr card has an NFC chip. Tap it against any smartphone and your profile opens instantly in their browser. No app needed.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Do I need an app?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                <div class="faq-a"><p>Nope. Neither do the people you share with. Your profile opens directly in their browser.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    What if I change jobs?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                <div class="faq-a"><p>Update your profile at app.tappr.one. Changes appear instantly on all your cards. No reprinting needed.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Which phones work with NFC?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                <div class="faq-a"><p>All iPhones from XR/XS and newer. Most Android phones from the last 5 years. About 90% of smartphones.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    What's the subscription?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                <div class="faq-a"><p>$3/month or $25/year. Includes a free PVC card, unlimited links, analytics, and lead capture. Cards also work forever with basic features without subscription.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <h2>Ready to Tap In?</h2>
+        <p>Get your card in 3–5 days. No contracts. Cancel anytime.</p>
+        <a href="https://app.tappr.one" class="btn btn-primary btn-large">Get Your Card Now</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="logo">tap<span>pr</span></div>
+            <p>NFC business cards for the modern professional. One tap, every connection.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Product</h4>
+            <a href="#how">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <a href="/blog/">Blog</a>
+            <a href="/contact.html">Contact</a>
+            <a href="https://app.tappr.one">Login</a>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/terms.html">Terms</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 Tappr. All rights reserved.</span>
+        <span>Made for networkers.</span>
+    </div>
+</footer>
+
+<script>
+function togglePlan() {
+    const sw = document.getElementById('toggleSwitch');
+    const isFree = sw.classList.toggle('free');
+    updatePricing(isFree);
+}
+function setPlan(plan) {
+    const sw = document.getElementById('toggleSwitch');
+    const isFree = plan === 'free';
+    sw.classList.toggle('free', isFree);
+    updatePricing(isFree);
+}
+function updatePricing(isFree) {
+    document.querySelectorAll('.sub-price, .sub-note, .sub-feat').forEach(el => el.style.display = isFree ? 'none' : '');
+    document.querySelectorAll('.free-price, .free-note, .free-feat').forEach(el => el.style.display = isFree ? '' : 'none');
+    document.querySelectorAll('.toggle-label').forEach(el => {
+        el.classList.toggle('active', el.dataset.plan === (isFree ? 'free' : 'sub'));
+    });
+}
+</script>
+</body>
+</html>
