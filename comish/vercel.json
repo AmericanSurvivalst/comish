@@ -1,0 +1,10 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "rewrites": [
+    { "source": "/dashboard", "destination": "/" },
+    { "source": "/dashboard/", "destination": "/" }
+  ]
+}
