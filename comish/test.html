@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test Click Handlers</title>
+<style>
+body { background: #000; color: #fff; font-family: sans-serif; padding: 2rem; }
+.card { background: #111; border: 1px solid #333; padding: 1rem; margin: 1rem 0; cursor: pointer; border-radius: 8px; }
+.card:hover { border-color: #0f8; }
+#result { background: #0f82; padding: 1rem; margin-top: 2rem; border-radius: 8px; }
+</style>
+</head>
+<body>
+<h1>Click Handler Test</h1>
+<p>Click any card below. If you see a message in the result box, clicks are working.</p>
+
+<div class="card" onclick="window.testClick('Card 1')">Card 1 - Click Me</div>
+<div class="card" onclick="window.testClick('Card 2')">Card 2 - Click Me</div>
+<div class="card" onclick="window.testClick('Card 3')">Card 3 - Click Me</div>
+
+<div id="result">Result will appear here</div>
+
+<script>
+window.testClick = function(name) {
+    document.getElementById('result').innerHTML = 'SUCCESS! You clicked: ' + name + ' at ' + new Date().toLocaleTimeString();
+};
+</script>
+</body>
+</html>
